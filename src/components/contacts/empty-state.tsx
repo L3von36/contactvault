@@ -1,16 +1,17 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Users, Plus, Upload, UserPlus } from "lucide-react"
+import { Users, Plus, Upload, UserPlus, LucideIcon } from "lucide-react"
 import Link from "next/link"
 
 interface EmptyStateProps {
   title: string
   description: string
-  onAddClick: () => void
+  onAddClick?: () => void
+  icon?: LucideIcon
 }
 
-export function EmptyState({ title, description, onAddClick }: EmptyStateProps) {
+export function EmptyState({ title, description, onAddClick, icon: Icon = Users }: EmptyStateProps) {
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -31,7 +32,7 @@ export function EmptyState({ title, description, onAddClick }: EmptyStateProps) 
               ease: "easeInOut"
             }}
           >
-            <Users className="h-12 w-12" />
+            <Icon className="h-12 w-12" />
           </motion.div>
         </div>
       </div>
@@ -44,13 +45,15 @@ export function EmptyState({ title, description, onAddClick }: EmptyStateProps) 
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4 w-full max-w-sm">
-        <button
-          onClick={onAddClick}
-          className="flex-1 flex items-center justify-center gap-2 rounded-2xl bg-primary px-6 py-4 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all active:scale-95 group"
-        >
-          <UserPlus className="h-4 w-4 group-hover:scale-110 transition-transform" />
-          Add Contact
-        </button>
+        {onAddClick && (
+          <button
+            onClick={onAddClick}
+            className="flex-1 flex items-center justify-center gap-2 rounded-2xl bg-primary px-6 py-4 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all active:scale-95 group"
+          >
+            <UserPlus className="h-4 w-4 group-hover:scale-110 transition-transform" />
+            Add Contact
+          </button>
+        )}
         <Link
           href="/import-export"
           className="flex-1 flex items-center justify-center gap-2 rounded-2xl bg-secondary px-6 py-4 text-sm font-bold text-foreground border border-border/40 hover:bg-secondary/80 transition-all active:scale-95 group"
