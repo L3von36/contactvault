@@ -22,7 +22,7 @@ const contactSchema = z.object({
   emails: z.array(z.object({
     label: z.string(),
     address: z.string().email("Invalid email address").or(z.literal("")),
-  })).default([]),
+  })).optional(),
   job_title: z.string().optional(),
   status: z.enum(["new", "qualified", "contacted"]).default("new"),
   group_ids: z.array(z.string()).default([]),
@@ -41,17 +41,17 @@ interface ContactFormProps {
 export function ContactForm({ onCancel, onSubmit, initialData, isSubmitting = false }: ContactFormProps) {
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
-    defaultValues: initialData || {
-      first_name: "",
-      last_name: "",
-      company: "",
-      address: "",
-      phones: [{ label: "Mobile", number: "" }],
-      emails: [],
-      job_title: "",
-      status: "new",
-      group_ids: [],
-      is_emergency_safe: false,
+    defaultValues: {
+      first_name: initialData?.first_name || "",
+      last_name: initialData?.last_name || "",
+      company: initialData?.company || "",
+      address: initialData?.address || "",
+      phones: initialData?.phones || [{ label: "Mobile", number: "" }],
+      emails: initialData?.emails || [],
+      job_title: initialData?.job_title || "",
+      status: initialData?.status || "new",
+      group_ids: initialData?.group_ids || [],
+      is_emergency_safe: initialData?.is_emergency_safe || false,
     },
   })
 
