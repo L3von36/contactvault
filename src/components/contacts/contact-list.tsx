@@ -2,6 +2,11 @@
 
 import { ContactCard } from "./contact-card"
 
+
+interface ContactListProps {
+  contacts: any[]
+}
+
 export function ContactList({ contacts = [] }: ContactListProps) {
   const displayContacts = contacts
 
