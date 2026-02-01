@@ -22,7 +22,7 @@ const contactSchema = z.object({
   emails: z.array(z.object({
     label: z.string(),
     address: z.string().email("Invalid email address").or(z.literal("")),
-  })).optional().default([]),
+  })).default([]),
   job_title: z.string().optional(),
   status: z.enum(["new", "qualified", "contacted"]).default("new"),
   group_ids: z.array(z.string()).default([]),
