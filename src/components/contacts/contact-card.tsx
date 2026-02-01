@@ -1,14 +1,15 @@
 "use client"
 
-import { Phone, Mail, MoreVertical, Star, MapPin, Building2, MessageSquare } from "lucide-react"
+import { Phone, Mail, MoreVertical, Heart, MapPin, Building2, MessageSquare } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useQueryClient } from "@tanstack/react-query"
 
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { Ripple } from "@/components/effects/ripple"
 import { toggleFavorite } from "@/lib/supabase/contact-actions"
 import { toast } from "sonner"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 interface ContactCardProps {
   contact: {
@@ -25,7 +26,13 @@ interface ContactCardProps {
 }
 
 export function ContactCard({ contact: initialContact }: ContactCardProps) {
+  const queryClient = useQueryClient()
   const [contact, setContact] = useState(initialContact)
+  
+  useEffect(() => {
+    setContact(initialContact)
+  }, [initialContact])
+
   const primaryPhone = contact.phones?.[0]?.number
   const primaryEmail = contact.emails?.[0]?.address
 
@@ -42,6 +49,8 @@ export function ContactCard({ contact: initialContact }: ContactCardProps) {
       toast.error("Failed to update favorite status")
     } else {
       toast.success(newStatus ? "Added to favorites" : "Removed from favorites")
+      // Invalidate both the general list and the specific favorites tab
+      queryClient.invalidateQueries({ queryKey: ['contacts'] })
     }
   }
 
@@ -64,6 +73,11 @@ export function ContactCard({ contact: initialContact }: ContactCardProps) {
                   <img src={contact.profile_picture_url} alt="" className="h-full w-full rounded-xl sm:rounded-[1.25rem] object-cover" />
                 ) : (
                   `${contact.first_name?.[0] || '?'}${contact.last_name?.[0] || ''}`
+                )}
+                {contact.is_favorite && (
+                  <div className="absolute -top-1 -right-1 h-5 w-5 bg-background border border-border rounded-full flex items-center justify-center shadow-sm">
+                    <Heart className="h-3 w-3 text-red-500 fill-red-500" />
+                  </div>
                 )}
               </div>
               <div className="min-w-0">
@@ -93,10 +107,15 @@ export function ContactCard({ contact: initialContact }: ContactCardProps) {
                 </a>
               )}
               <button 
-                className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary border border-border text-muted-foreground active:scale-90 transition-all cursor-pointer"
+                className={cn(
+                  "flex h-9 w-9 items-center justify-center rounded-xl border transition-all active:scale-90 cursor-pointer",
+                  contact.is_favorite 
+                    ? "bg-red-50 border-red-100 text-red-500 shadow-sm" 
+                    : "bg-secondary border-border text-muted-foreground"
+                )}
                 onClick={handleToggleFavorite}
               >
-                <Star className={cn("h-3.5 w-3.5", contact.is_favorite && "fill-primary text-primary")} />
+                <Heart className={cn("h-4.5 w-4.5", contact.is_favorite && "fill-red-500")} />
               </button>
             </div>
           </div>
@@ -163,7 +182,7 @@ export function ContactCard({ contact: initialContact }: ContactCardProps) {
                 whileTap={{ scale: 0.8 }}
                 transition={{ type: "spring", stiffness: 400, damping: 10 }}
               >
-                <Star className={cn("h-4 w-4", contact.is_favorite && "fill-primary text-primary")} />
+                <Heart className={cn("h-4 w-4", contact.is_favorite && "fill-red-500 text-red-500")} />
               </motion.div>
             </button>
             <button 

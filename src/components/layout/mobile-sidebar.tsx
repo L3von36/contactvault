@@ -120,7 +120,7 @@ export function MobileSidebar() {
     <div className="md:hidden">
       <button 
         onClick={() => setOpen(true)}
-        className="p-2 -ml-2 text-muted-foreground hover:text-foreground"
+        className="p-2 -ml-2 text-foreground hover:text-primary transition-colors"
       >
         <motion.div whileTap={{ scale: 0.9, rotate: 90 }}>
           <Menu className="h-6 w-6" />

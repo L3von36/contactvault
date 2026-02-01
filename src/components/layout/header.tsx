@@ -42,8 +42,10 @@ export function Header() {
 
   return (
     <header className="flex h-16 items-center justify-between px-4 sm:px-6 bg-card sticky top-0 z-40 border-b border-border/40 backdrop-blur-md">
-      <div className="flex items-center gap-3 sm:gap-6 w-full max-w-[200px] sm:max-w-xl">
-        <MobileSidebar />
+      <div className="flex items-center gap-2 sm:gap-6 flex-1 max-w-xl">
+        <div className="mr-1">
+          <MobileSidebar />
+        </div>
         <div className="relative w-full group">
           <motion.div 
             className="absolute left-4 top-1/2 -translate-y-1/2 z-10"

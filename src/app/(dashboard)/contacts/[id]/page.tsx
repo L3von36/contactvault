@@ -7,7 +7,7 @@ import {
   Phone as PhoneIcon, 
   MapPin, 
   Building2, 
-  Star, 
+  Heart, 
   MoreVertical, 
   Edit2, 
   Trash2, 
@@ -191,11 +191,16 @@ export default function ContactDetailsPage() {
                 <h1 className="text-4xl font-black text-slate-900 tracking-tight">
                   {contact.first_name} {contact.last_name || ''}
                 </h1>
-                <button 
+                 <button 
                   onClick={handleToggleFavorite}
-                  className="h-10 w-10 flex items-center justify-center rounded-2xl bg-white border border-slate-100 text-slate-300 hover:text-primary transition-all hover:border-primary/20 hover:shadow-md"
+                  className={cn(
+                    "h-10 w-10 flex items-center justify-center rounded-2xl border transition-all hover:shadow-md active:scale-95",
+                    contact.is_favorite 
+                      ? "bg-red-50 border-red-100 text-red-500" 
+                      : "bg-white border-slate-100 text-slate-300 hover:text-red-400 hover:border-red-100"
+                  )}
                 >
-                   <Star className={cn("h-5 w-5", contact.is_favorite && "fill-primary text-primary")} />
+                   <Heart className={cn("h-5 w-5", contact.is_favorite && "fill-red-500")} />
                 </button>
               </div>
               {(contact.job_title || contact.company) && (
