@@ -81,7 +81,7 @@ export async function createContact(formData: any) {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
-    if (!user) return { error: "Not authenticated" }
+    if (!user) return { success: false, error: "Not authenticated" }
 
     const { group_ids, ...data } = formData
     const { data: contact, error } = await supabase
@@ -95,7 +95,7 @@ export async function createContact(formData: any) {
 
     if (error) {
         console.error("Error creating contact:", error)
-        return { error: error.message }
+        return { success: false, error: error.message }
     }
 
     if (group_ids && group_ids.length > 0) {
@@ -108,14 +108,14 @@ export async function createContact(formData: any) {
 
     revalidatePath("/contacts")
     revalidatePath("/groups")
-    return { success: true }
+    return { success: true, error: null }
 }
 
 export async function updateContact(id: string, formData: any) {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
-    if (!user) return { error: "Not authenticated" }
+    if (!user) return { success: false, error: "Not authenticated" }
 
     const { group_ids, ...data } = formData
     const { error } = await supabase
@@ -126,7 +126,7 @@ export async function updateContact(id: string, formData: any) {
 
     if (error) {
         console.error("Error updating contact:", error)
-        return { error: error.message }
+        return { success: false, error: error.message }
     }
 
     // Sync groups
@@ -145,7 +145,7 @@ export async function updateContact(id: string, formData: any) {
     revalidatePath("/contacts")
     revalidatePath(`/contacts/${id}`)
     revalidatePath("/groups")
-    return { success: true }
+    return { success: true, error: null }
 }
 
 export async function deleteContact(id: string) {
@@ -157,11 +157,11 @@ export async function deleteContact(id: string) {
 
     if (error) {
         console.error("Error deleting contact:", error)
-        return { error: error.message }
+        return { success: false, error: error.message }
     }
 
     revalidatePath("/contacts")
-    return { success: true }
+    return { success: true, error: null }
 }
 
 export async function toggleFavorite(id: string, is_favorite: boolean) {
@@ -173,17 +173,17 @@ export async function toggleFavorite(id: string, is_favorite: boolean) {
 
     if (error) {
         console.error("Error toggling favorite:", error)
-        return { error: error.message }
+        return { success: false, error: error.message }
     }
 
     revalidatePath("/contacts")
-    return { success: true }
+    return { success: true, error: null }
 }
 export async function bulkCreateContacts(contacts: any[]) {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
-    if (!user) return { error: "Not authenticated" }
+    if (!user) return { success: false, error: "Not authenticated" }
 
     const contactsWithUser = contacts.map(c => ({
         ...c,
@@ -196,11 +196,11 @@ export async function bulkCreateContacts(contacts: any[]) {
 
     if (error) {
         console.error("Error bulk creating contacts:", error)
-        return { error: error.message }
+        return { success: false, error: error.message }
     }
 
     revalidatePath("/contacts")
-    return { success: true, count: contactsWithUser.length }
+    return { success: true, error: null, count: contactsWithUser.length }
 }
 export async function getContact(id: string) {
     const supabase = await createClient()
