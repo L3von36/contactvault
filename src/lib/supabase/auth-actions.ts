@@ -57,7 +57,7 @@ export async function signOut() {
 export async function signInWithOAuth(provider: "google") {
     const supabase = await createClient()
     const headerList = await headers()
-    const host = headerList.get("host")
+    const host = headerList.get("x-forwarded-host") || headerList.get("host")
     const protocol = host?.includes("localhost") ? "http" : "https"
     const siteUrl = `${protocol}://${host}`
 

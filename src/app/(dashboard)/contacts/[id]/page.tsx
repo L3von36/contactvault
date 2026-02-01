@@ -107,6 +107,27 @@ export default function ContactDetailsPage() {
     )
   }
 
+  if (!contact) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] space-y-6">
+        <div className="h-20 w-20 rounded-[2rem] bg-red-50 flex items-center justify-center">
+            <Trash2 className="h-10 w-10 text-red-500" />
+        </div>
+        <div className="text-center space-y-2">
+            <h2 className="text-2xl font-black text-slate-900">Contact Not Found</h2>
+            <p className="text-slate-500 font-medium">This contact may have been deleted or is hidden.</p>
+        </div>
+        <button 
+          onClick={() => router.push("/contacts")}
+          className="flex items-center gap-2 rounded-2xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all active:scale-95"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Contacts
+        </button>
+      </div>
+    )
+  }
+
   return (
     <div className="max-w-4xl mx-auto space-y-8 pb-20">
       {/* Navigation & Header Actions */}

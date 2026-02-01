@@ -47,13 +47,16 @@
    - Making `group_ids` optional caused `form.getValues("group_ids")` to potentially return `undefined`, failing at runtime usage (`.filter`).
    - **Solution**: Added a safe fallback `(current || [])` to ensure array operations always succeed.
 
-12. **Fixed OAuth Localhost Redirect**:
-    - OAuth login (Google) was redirecting to `localhost:3000` because of a hardcoded `NEXT_PUBLIC_SITE_URL` in environment variables.
-    - **Solution**: Updated `signInWithOAuth` in `auth-actions.ts` to dynamically construct the redirect URL using Next.js `headers()`. This ensures it works correctly on both localhost and Render.
+13. **Fixed Contact Details Page Crash**:
+    - The page was crashing when a contact was hidden (Duress Mode) or not found because it lacked null-checks for the `contact` object.
+    - **Solution**: Added a robust null-check and a "Contact Not Found" error state with a "Back to Contacts" button.
+
+14. **Improved OAuth Redirect Resilience**:
+    - Switched from strictly using the `host` header to prioritizing `x-forwarded-host` in `auth-actions.ts`. This ensures correct redirect URLs on platforms like Render where the application might be behind a load balancer.
 
 ## What Happens Now
 
-✅ **Changes pushed to GitHub** (commit: `9d86414`)
+✅ **Changes pushed to GitHub** (commit: `7c6a9b2`)
 
 🔄 **Render will automatically:**
 1. Detect the new commit
