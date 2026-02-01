@@ -47,13 +47,14 @@
    - Making `group_ids` optional caused `form.getValues("group_ids")` to potentially return `undefined`, failing at runtime usage (`.filter`).
    - **Solution**: Added a safe fallback `(current || [])` to ensure array operations always succeed.
 
-10. **Fixed Missing `ContactListProps` Interface**:
-    - The build failed in `src/components/contacts/contact-list.tsx` because the `ContactListProps` interface was used but never defined.
-    - **Solution**: Defined the `ContactListProps` interface with the expected `contacts` prop.
+10. **Fixed Missing `ContactListProps` Interface and `emptyMessage` Prop**:
+    - The build failed in `src/components/contacts/contact-list.tsx` because the `ContactListProps` interface was missing.
+    - Subsequent builds failed because `ContactList` was being passed an `emptyMessage` prop (in `favorites` and `shared` pages) which wasn't in the interface.
+    - **Solution**: Defined `ContactListProps` with an optional `emptyMessage?: string` prop and updated the component to handle it.
 
 ## What Happens Now
 
-✅ **Changes pushed to GitHub** (commit: `80794be`)
+✅ **Changes pushed to GitHub** (commit: `af9e5fc`)
 
 🔄 **Render will automatically:**
 1. Detect the new commit

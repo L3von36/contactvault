@@ -5,9 +5,10 @@ import { ContactCard } from "./contact-card"
 
 interface ContactListProps {
   contacts: any[]
+  emptyMessage?: string
 }
 
-export function ContactList({ contacts = [] }: ContactListProps) {
+export function ContactList({ contacts = [], emptyMessage }: ContactListProps) {
   const displayContacts = contacts
 
   return (
