@@ -102,19 +102,19 @@ export default function EmergencySettingsPage() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-10 pb-12">
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-3">
-            <h1 className="text-3xl font-black tracking-tight text-foreground">Fail-Safe Protocols</h1>
-            <div className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+      <div className="flex flex-col gap-1.5">
+        <div className="flex items-center gap-2.5">
+            <h1 className="text-2xl font-black tracking-tight text-foreground">Fail-Safe Protocols</h1>
+            <div className="h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse" />
         </div>
-        <p className="text-muted-foreground font-medium">Manage your vault's emergency overrides and duress triggers.</p>
+        <p className="text-sm text-muted-foreground font-medium">Manage your vault's emergency overrides and duress triggers.</p>
       </div>
 
-      <div className="grid gap-8">
+      <div className="grid gap-6">
         {/* Main Status */}
         <div className={cn(
-          "rounded-[2.5rem] border p-8 transition-all duration-500 relative overflow-hidden",
-          enabled ? "border-red-500 bg-red-500/10 shadow-2xl shadow-red-500/20" : "border-border bg-card shadow-sm"
+          "rounded-3xl border p-6 transition-all duration-500 relative overflow-hidden",
+          enabled ? "border-red-500 bg-red-500/10 shadow-xl shadow-red-500/10" : "border-border bg-card shadow-sm"
         )}>
           {enabled && (
              <div className="absolute top-0 right-0 p-4">
@@ -127,8 +127,8 @@ export default function EmergencySettingsPage() {
           
           <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
             <div className={cn(
-              "h-20 w-20 rounded-3xl flex items-center justify-center shadow-lg transition-all duration-500",
-              enabled ? "bg-red-500 text-white shadow-red-500/40 scale-110" : "bg-secondary text-muted-foreground"
+              "h-16 w-16 rounded-2xl flex items-center justify-center shadow-lg transition-all duration-500",
+              enabled ? "bg-red-500 text-white shadow-red-500/30 scale-105" : "bg-secondary text-muted-foreground"
             )}>
               <motion.div
                 animate={enabled ? { 
@@ -143,22 +143,22 @@ export default function EmergencySettingsPage() {
                 <Siren className="h-10 w-10" />
               </motion.div>
             </div>
-            <div className="space-y-4 flex-1 text-center md:text-left">
+            <div className="space-y-3 flex-1 text-center md:text-left">
               <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-                <h3 className="font-black text-2xl text-foreground tracking-tight">Active Panic Mode</h3>
+                <h3 className="font-black text-xl text-foreground tracking-tight">Active Panic Mode</h3>
                 <button 
                   onClick={() => handleToggle(!enabled)}
                   disabled={updateMutation.isPending}
                   className={cn(
-                    "relative inline-flex h-10 w-20 shrink-0 cursor-pointer items-center rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-red-500/20",
+                    "relative inline-flex h-8 w-16 shrink-0 cursor-pointer items-center rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-red-500/20",
                     enabled ? "bg-red-500 shadow-lg shadow-red-500/30" : "bg-slate-200"
                   )}
                 >
                   <span className={cn(
-                    "pointer-events-none block h-8 w-8 rounded-full bg-white shadow-xl ring-0 transition-transform duration-300 flex items-center justify-center",
-                    enabled ? "translate-x-11" : "translate-x-1"
+                    "pointer-events-none block h-6 w-6 rounded-full bg-white shadow-md ring-0 transition-transform duration-300 flex items-center justify-center",
+                    enabled ? "translate-x-9" : "translate-x-1"
                   )}>
-                    {updateMutation.isPending && <Loader2 className="h-4 w-4 animate-spin text-red-500" />}
+                    {updateMutation.isPending && <Loader2 className="h-3 w-3 animate-spin text-red-500" />}
                   </span>
                 </button>
               </div>
@@ -169,90 +169,90 @@ export default function EmergencySettingsPage() {
           </div>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2">
           {/* Access PIN */}
-          <div className="rounded-[2rem] border border-border bg-card p-8 shadow-sm group hover:shadow-xl transition-all duration-500">
-            <div className="flex items-center gap-4 mb-8">
-              <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20 group-hover:bg-primary/20 transition-colors">
+          <div className="rounded-3xl border border-border bg-card p-6 shadow-sm group hover:shadow-lg transition-all duration-500">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20 group-hover:bg-primary/20 transition-colors">
                 <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.8 }}>
-                  <KeyRound className="h-6 w-6 text-primary" />
+                  <KeyRound className="h-5 w-5 text-primary" />
                 </motion.div>
               </div>
-              <h3 className="font-bold text-xl text-foreground tracking-tight">Security Override PIN</h3>
+              <h3 className="font-bold text-lg text-foreground tracking-tight">Security Override PIN</h3>
             </div>
-            <p className="text-sm text-muted-foreground mb-8 leading-relaxed font-medium">
+            <p className="text-sm text-muted-foreground mb-6 leading-relaxed font-medium">
               Enter this 6-digit numeric sequence on the login screen to trigger the Panic Response protocols.
             </p>
-            <div className="flex gap-3">
+            <div className="flex gap-2">
               <input 
                 type="text" 
                 value={pin}
                 onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
                 placeholder="000000" 
-                className="flex-1 h-14 rounded-2xl border border-border bg-secondary/50 px-6 text-center text-xl tracking-[0.5em] focus:bg-background focus:ring-4 focus:ring-primary/10 transition-all font-black placeholder:text-muted-foreground/20"
+                className="flex-1 h-12 rounded-xl border border-border bg-secondary/50 px-4 text-center text-lg tracking-[0.4em] focus:bg-background focus:ring-4 focus:ring-primary/10 transition-all font-black placeholder:text-muted-foreground/20"
                 maxLength={6}
               />
               <button 
                 onClick={handleSetPin}
                 disabled={updateMutation.isPending || pin.length !== 6}
-                className="rounded-2xl bg-foreground text-background px-8 text-xs font-black uppercase tracking-widest hover:bg-foreground/90 active:scale-95 transition-all disabled:opacity-50"
+                className="rounded-xl bg-foreground text-background px-6 text-[10px] font-black uppercase tracking-widest hover:bg-foreground/90 active:scale-95 transition-all disabled:opacity-50"
               >
-                {updateMutation.isPending ? <Loader2 className="h-5 w-5 animate-spin" /> : "Set PIN"}
+                {updateMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Set"}
               </button>
             </div>
           </div>
 
           {/* Trusted Contacts */}
-          <div className="rounded-[2rem] border border-border bg-card p-8 shadow-sm group hover:shadow-xl transition-all duration-500 flex flex-col justify-between">
+          <div className="rounded-3xl border border-border bg-card p-6 shadow-sm group hover:shadow-lg transition-all duration-500 flex flex-col justify-between">
              <div>
-              <div className="flex items-center gap-4 mb-8">
-                <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20 group-hover:bg-primary/20 transition-colors">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20 group-hover:bg-primary/20 transition-colors">
                   <motion.div whileHover={{ scale: 1.2, rotate: [-10, 10, -10, 0] }} transition={{ duration: 0.5 }}>
-                    <ShieldAlert className="h-6 w-6 text-primary" />
+                    <ShieldAlert className="h-5 w-5 text-primary" />
                   </motion.div>
                 </div>
-                <h3 className="font-bold text-xl text-foreground tracking-tight">Fail-safe List</h3>
+                <h3 className="font-bold text-lg text-foreground tracking-tight">Fail-safe List</h3>
               </div>
-              <p className="text-sm text-muted-foreground mb-8 leading-relaxed font-medium">
+              <p className="text-sm text-muted-foreground mb-6 leading-relaxed font-medium">
                 Identify the contacts allowed to remain visible in the vault while Panic Mode is engaged.
               </p>
              </div>
             <button 
                 onClick={() => setIsSafeContactsOpen(true)}
-                className="group h-14 rounded-2xl bg-secondary/50 hover:bg-primary/10 hover:border-primary/50 transition-all flex items-center justify-between px-6 border border-border/50"
+                className="group h-12 rounded-xl bg-secondary/20 hover:bg-primary/5 hover:border-primary/30 transition-all flex items-center justify-between px-4 border border-border/50"
             >
               <div className="flex items-center gap-3">
-                <Users className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                <span className="text-xs font-black uppercase tracking-widest text-muted-foreground group-hover:text-foreground">
-                    {safeContacts.length} Safe Contacts
+                <Users className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground group-hover:text-foreground">
+                    {safeContacts.length} Safe Individuals
                 </span>
               </div>
-              <span className="text-[10px] font-black uppercase tracking-widest text-primary">Manage</span>
+              <span className="text-[9px] font-black uppercase tracking-widest text-primary border-b border-primary/30">Edit</span>
             </button>
           </div>
         </div>
 
         {/* Danger Zone */}
-        <section className="rounded-[2.5rem] border border-red-500/20 bg-red-500/5 p-10 space-y-10">
-          <div className="flex items-center gap-4">
-             <div className="h-12 w-12 rounded-2xl bg-red-500/10 flex items-center justify-center border border-red-500/20">
-                <AlertTriangle className="h-6 w-6 text-red-500" />
+        <section className="rounded-3xl border border-red-500/10 bg-red-500/[0.02] p-8 space-y-8">
+          <div className="flex items-center gap-3">
+             <div className="h-10 w-10 rounded-xl bg-red-500/10 flex items-center justify-center border border-red-500/20">
+                <AlertTriangle className="h-5 w-5 text-red-500" />
              </div>
-             <h2 className="text-2xl font-black text-red-500 tracking-tight">Deactivation Zone</h2>
+             <h2 className="text-xl font-black text-red-500 tracking-tight uppercase tracking-wider">Deactivation Zone</h2>
           </div>
           
-          <div className="space-y-6">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 p-6 rounded-3xl bg-card border border-red-500/10 hover:shadow-lg transition-all">
+          <div className="space-y-4">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 p-5 rounded-2xl bg-card border border-red-500/10 hover:shadow-md transition-all">
               <div>
-                <p className="font-black text-lg text-foreground">Nuclear Data Wipe</p>
-                <p className="text-sm text-muted-foreground font-medium italic">Purge all vault entries, relationship mappings, and security logs.</p>
+                <p className="font-black text-base text-foreground">Nuclear Data Wipe</p>
+                <p className="text-[11px] text-muted-foreground font-medium italic">Purge all vault entries, relationship mappings, and security logs.</p>
               </div>
               <button 
                 onClick={handleResetData}
                 disabled={resetMutation.isPending}
-                className="flex items-center justify-center gap-2 rounded-2xl border-2 border-red-500/20 px-8 py-3 text-xs font-black uppercase tracking-widest text-red-600 hover:bg-red-500 hover:text-white transition-all active:scale-95 disabled:opacity-50"
+                className="flex items-center justify-center gap-2 rounded-xl border-2 border-red-500/10 px-6 py-2.5 text-[10px] font-black uppercase tracking-widest text-red-600 hover:bg-red-500 hover:text-white transition-all active:scale-95 disabled:opacity-50"
               >
-                {resetMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <RotateCcw className="h-4 w-4" />}
+                {resetMutation.isPending ? <Loader2 className="h-3 w-3 animate-spin" /> : <RotateCcw className="h-3.5 w-3.5" />}
                 Execute Reset
               </button>
             </div>
@@ -272,30 +272,30 @@ export default function EmergencySettingsPage() {
                onClick={() => setIsSafeContactsOpen(false)}
              />
              <motion.div
-               initial={{ scale: 0.9, opacity: 0, y: 20 }}
+               initial={{ scale: 0.95, opacity: 0, y: 10 }}
                animate={{ scale: 1, opacity: 1, y: 0 }}
-               exit={{ scale: 0.9, opacity: 0, y: 20 }}
-               className="relative w-full max-w-2xl bg-card border border-border shadow-2xl rounded-[2.5rem] flex flex-col max-h-[80vh] overflow-hidden"
+               exit={{ scale: 0.95, opacity: 0, y: 10 }}
+               className="relative w-full max-w-xl bg-card border border-border shadow-2xl rounded-3xl flex flex-col max-h-[80vh] overflow-hidden"
              >
-                <div className="p-8 border-b border-border/50">
-                    <div className="flex items-center justify-between mb-8">
+                <div className="p-6 border-b border-border/50">
+                    <div className="flex items-center justify-between mb-6">
                         <div>
-                            <h2 className="text-2xl font-black text-foreground tracking-tight">Manage Fail-safe List</h2>
-                            <p className="text-sm text-muted-foreground font-medium">Select individuals to bypass Panic Mode concealment.</p>
+                            <h2 className="text-xl font-black text-foreground tracking-tight">Manage Fail-safe List</h2>
+                            <p className="text-xs text-muted-foreground font-medium">Select individuals to bypass Panic Mode concealment.</p>
                         </div>
-                        <button onClick={() => setIsSafeContactsOpen(false)} className="h-10 w-10 rounded-full hover:bg-secondary flex items-center justify-center transition-colors">
-                            <X className="h-5 w-5" />
+                        <button onClick={() => setIsSafeContactsOpen(false)} className="h-8 w-8 rounded-full hover:bg-secondary flex items-center justify-center transition-colors">
+                            <X className="h-4 w-4" />
                         </button>
                     </div>
 
                     <div className="relative">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground/50" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/40" />
                         <input 
                             type="text"
                             placeholder="Search Vault..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full h-14 pl-12 pr-4 bg-secondary/50 rounded-2xl border border-border focus:ring-4 focus:ring-primary/10 focus:border-primary/50 transition-all font-bold text-sm"
+                            className="w-full h-11 pl-10 pr-4 bg-secondary/30 rounded-xl border border-border focus:ring-4 focus:ring-primary/5 focus:border-primary/40 transition-all font-bold text-xs"
                         />
                     </div>
                 </div>
@@ -331,10 +331,10 @@ export default function EmergencySettingsPage() {
                     ))}
                 </div>
 
-                <div className="p-8 border-t border-border/50 bg-secondary/20">
+                <div className="p-6 border-t border-border/50 bg-secondary/10">
                     <button 
                         onClick={() => setIsSafeContactsOpen(false)}
-                        className="w-full h-14 rounded-2xl bg-foreground text-background font-black uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-95 shadow-lg shadow-black/10"
+                        className="w-full h-12 rounded-xl bg-foreground text-background font-black uppercase tracking-widest text-[10px] transition-all hover:scale-[1.02] active:scale-95 shadow-md shadow-black/5"
                     >
                         Save Protocols
                     </button>

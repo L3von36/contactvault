@@ -225,31 +225,31 @@ export default function ImportExportPage() {
       
       <div className="space-y-10 max-w-5xl mx-auto pb-12">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">Import & Export</h1>
-        <p className="text-muted-foreground mt-2">Manage your data portability settings and sync with other apps.</p>
+        <h1 className="text-2xl font-black tracking-tight text-foreground">Import & Export</h1>
+        <p className="text-sm text-muted-foreground mt-1.5 font-medium">Manage your data portability settings and sync with other apps.</p>
       </div>
 
       <div className="grid gap-10 md:grid-cols-2">
         {/* Import Section */}
-        <section className="space-y-6">
+        <section className="space-y-4">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20 shadow-sm">
-              <Upload className="h-5 w-5 text-primary" />
+            <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center border border-primary/20 shadow-sm">
+              <Upload className="h-4 w-4 text-primary" />
             </div>
-            <h2 className="text-2xl font-bold text-foreground">Import Contacts</h2>
+            <h2 className="text-xl font-bold text-foreground">Import Contacts</h2>
           </div>
 
-          <div className="group relative rounded-3xl border-2 border-dashed border-border bg-card p-10 text-center hover:border-primary/50 hover:bg-secondary/30 transition-all duration-300">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-secondary shadow-inner group-hover:bg-primary/10 group-hover:text-primary transition-colors mb-6">
+          <div className="group relative rounded-3xl border-2 border-dashed border-border bg-card p-8 text-center hover:border-primary/40 hover:bg-secondary/20 transition-all duration-300">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-secondary shadow-inner group-hover:bg-primary/10 group-hover:text-primary transition-colors mb-5">
               <motion.div
-                animate={{ y: [0, -5, 0] }}
+                animate={{ y: [0, -3, 0] }}
                 transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
               >
-                <Upload className="h-8 w-8 text-muted-foreground group-hover:text-primary transition-colors" />
+                <Upload className="h-7 w-7 text-muted-foreground group-hover:text-primary transition-colors" />
               </motion.div>
             </div>
-            <h3 className="text-lg font-bold text-foreground">Drop files here</h3>
-            <p className="text-sm text-muted-foreground mt-2 max-w-[240px] mx-auto leading-relaxed">
+            <h3 className="text-base font-bold text-foreground">Drop files here</h3>
+            <p className="text-xs text-muted-foreground mt-1.5 max-w-[200px] mx-auto leading-relaxed">
               Support for VCF (vCard) and CSV files from Google Contacts or Outlook.
             </p>
             <input 
@@ -261,7 +261,7 @@ export default function ImportExportPage() {
             />
             <button 
               onClick={() => fileInputRef.current?.click()}
-              className="mt-6 rounded-xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground shadow-sm shadow-primary/20 hover:bg-primary/90 hover:scale-105 active:scale-95 transition-all"
+              className="mt-6 rounded-xl bg-primary px-5 py-2.5 text-xs font-bold text-primary-foreground shadow-lg shadow-primary/10 hover:bg-primary/90 hover:scale-105 active:scale-95 transition-all"
             >
               Select Files
             </button>
@@ -270,22 +270,22 @@ export default function ImportExportPage() {
           <div className="space-y-4">
             <h4 className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em] ml-1">Supported Formats</h4>
             <div className="grid grid-cols-2 gap-4">
-              <div className="flex items-center gap-4 rounded-2xl border border-border p-4 bg-card shadow-sm">
-                <div className="h-10 w-10 rounded-xl bg-orange-50 flex items-center justify-center">
-                  <FileIcon className="h-5 w-5 text-orange-500" />
+              <div className="flex items-center gap-3 rounded-xl border border-border p-3 bg-card shadow-sm">
+                <div className="h-9 w-9 rounded-lg bg-orange-50 flex items-center justify-center">
+                  <FileIcon className="h-4 w-4 text-orange-500" />
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-foreground">vCard</p>
-                  <p className="text-xs text-muted-foreground font-medium">.vcf file</p>
+                  <p className="text-xs font-bold text-foreground">vCard</p>
+                  <p className="text-[10px] text-muted-foreground font-medium">.vcf file</p>
                 </div>
               </div>
-              <div className="flex items-center gap-4 rounded-2xl border border-border p-4 bg-card shadow-sm">
-                <div className="h-10 w-10 rounded-xl bg-emerald-50 flex items-center justify-center">
-                  <FileSpreadsheet className="h-5 w-5 text-emerald-500" />
+              <div className="flex items-center gap-3 rounded-xl border border-border p-3 bg-card shadow-sm">
+                <div className="h-9 w-9 rounded-lg bg-emerald-50 flex items-center justify-center">
+                  <FileSpreadsheet className="h-4 w-4 text-emerald-500" />
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-foreground">CSV</p>
-                  <p className="text-xs text-muted-foreground font-medium">.csv file</p>
+                  <p className="text-xs font-bold text-foreground">CSV</p>
+                  <p className="text-[10px] text-muted-foreground font-medium">.csv file</p>
                 </div>
               </div>
             </div>
@@ -293,26 +293,26 @@ export default function ImportExportPage() {
         </section>
 
         {/* Export Section */}
-        <section className="space-y-6">
+        <section className="space-y-4">
           <div className="flex items-center gap-3">
-             <div className="h-10 w-10 rounded-xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 shadow-sm">
-              <Download className="h-5 w-5 text-emerald-500" />
+             <div className="h-9 w-9 rounded-lg bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 shadow-sm">
+              <Download className="h-4 w-4 text-emerald-500" />
             </div>
-            <h2 className="text-2xl font-bold text-foreground">Export Contacts</h2>
+            <h2 className="text-xl font-bold text-foreground">Export Contacts</h2>
           </div>
 
-          <div className="rounded-3xl border border-border bg-card p-6 shadow-sm space-y-3">
+          <div className="rounded-3xl border border-border bg-card p-5 shadow-sm space-y-2">
             <button 
               onClick={() => handleExport("vcf")}
-              className="group flex w-full items-center justify-between p-4 rounded-2xl bg-secondary/30 border border-transparent hover:border-primary/30 hover:bg-secondary/50 transition-all duration-300 text-left"
+              className="group flex w-full items-center justify-between p-3.5 rounded-xl bg-secondary/20 border border-transparent hover:border-primary/20 hover:bg-secondary/30 transition-all duration-300 text-left"
             >
-              <div className="flex items-center gap-4">
-                <div className="h-12 w-12 rounded-xl bg-orange-50 flex items-center justify-center group-hover:bg-orange-100 transition-colors">
-                  <FileIcon className="h-6 w-6 text-orange-600" />
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-lg bg-orange-50 flex items-center justify-center group-hover:bg-orange-100 transition-colors">
+                  <FileIcon className="h-5 w-5 text-orange-600" />
                 </div>
                 <div>
-                  <p className="font-bold text-foreground group-hover:text-primary transition-colors">Export as vCard</p>
-                  <p className="text-xs text-muted-foreground font-medium">Best for iOS & Android sync</p>
+                  <p className="text-sm font-bold text-foreground group-hover:text-primary transition-colors">Export as vCard</p>
+                  <p className="text-[10px] text-muted-foreground font-medium">Best for iOS & Android sync</p>
                 </div>
               </div>
               <motion.div
@@ -325,15 +325,15 @@ export default function ImportExportPage() {
 
             <button 
               onClick={() => handleExport("csv")}
-              className="group flex w-full items-center justify-between p-4 rounded-2xl bg-secondary/30 border border-transparent hover:border-primary/30 hover:bg-secondary/50 transition-all duration-300 text-left"
+              className="group flex w-full items-center justify-between p-3.5 rounded-xl bg-secondary/20 border border-transparent hover:border-primary/20 hover:bg-secondary/30 transition-all duration-300 text-left"
             >
-              <div className="flex items-center gap-4">
-                <div className="h-12 w-12 rounded-xl bg-emerald-50 flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
-                  <FileSpreadsheet className="h-6 w-6 text-emerald-600" />
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-lg bg-emerald-50 flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
+                  <FileSpreadsheet className="h-5 w-5 text-emerald-600" />
                 </div>
                 <div>
-                  <p className="font-bold text-foreground group-hover:text-primary transition-colors">Export as CSV</p>
-                  <p className="text-xs text-muted-foreground font-medium">Best for Excel & DB processing</p>
+                  <p className="text-sm font-bold text-foreground group-hover:text-primary transition-colors">Export as CSV</p>
+                  <p className="text-[10px] text-muted-foreground font-medium">Best for Excel & DB processing</p>
                 </div>
               </div>
               <motion.div

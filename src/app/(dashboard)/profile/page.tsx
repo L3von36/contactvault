@@ -65,27 +65,27 @@ export default function ProfilePage() {
   return (
     <div className="max-w-4xl mx-auto space-y-8 pb-12">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
-        className="space-y-1"
+        className="space-y-1.5"
       >
-        <h1 className="text-3xl font-black tracking-tight text-foreground">My Profile</h1>
-        <p className="text-muted-foreground font-medium">Manage your personal information and account security.</p>
+        <h1 className="text-2xl font-black tracking-tight text-foreground">My Profile</h1>
+        <p className="text-sm text-muted-foreground font-medium">Manage your personal information and account security.</p>
       </motion.div>
 
       <div className="grid gap-8">
         {/* Profile Card */}
-        <section className="bg-card rounded-[2.5rem] border border-border/50 p-8 sm:p-12 shadow-xl shadow-primary/5 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
+        <section className="bg-card rounded-3xl border border-border/50 p-8 sm:p-10 shadow-xl shadow-primary/5 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full blur-3xl -mr-24 -mt-24"></div>
           
           <div className="relative z-10 flex flex-col md:flex-row gap-10 items-center md:items-start">
             {/* Avatar Section */}
             <div className="relative group">
-              <div className="h-32 w-32 rounded-[2.5rem] bg-primary/10 flex items-center justify-center text-4xl font-black text-primary border-4 border-card shadow-lg shadow-primary/20 overflow-hidden">
+              <div className="h-24 w-24 rounded-3xl bg-primary/10 flex items-center justify-center text-3xl font-black text-primary border-4 border-card shadow-lg shadow-primary/10 overflow-hidden">
                 <img src={userAvatar} alt={userName} className="w-full h-full object-cover" />
               </div>
-              <button className="absolute -bottom-2 -right-2 h-10 w-10 rounded-2xl bg-primary text-primary-foreground flex items-center justify-center border-4 border-card shadow-lg hover:scale-110 active:scale-95 transition-all">
-                <Camera className="h-4 w-4" />
+              <button className="absolute -bottom-1.5 -right-1.5 h-8 w-8 rounded-xl bg-primary text-primary-foreground flex items-center justify-center border-4 border-card shadow-lg hover:scale-110 active:scale-95 transition-all">
+                <Camera className="h-3.5 w-3.5" />
               </button>
             </div>
 
@@ -100,7 +100,7 @@ export default function ProfilePage() {
                       onChange={(e) => setFullName(e.target.value)}
                       disabled={!isEditing}
                       className={cn(
-                        "flex-1 h-12 bg-secondary/50 rounded-2xl px-5 text-sm font-bold border border-transparent transition-all outline-none",
+                        "flex-1 h-11 bg-secondary/50 rounded-xl px-4 text-sm font-bold border border-transparent transition-all outline-none",
                         isEditing ? "bg-background border-primary/20 ring-4 ring-primary/5" : "cursor-not-allowed opacity-80"
                       )}
                       placeholder="Your Full Name"
@@ -108,9 +108,9 @@ export default function ProfilePage() {
                     {!isEditing ? (
                       <button 
                         onClick={() => setIsEditing(true)}
-                        className="h-12 px-6 rounded-2xl bg-secondary hover:bg-secondary/80 text-foreground font-bold text-sm transition-all flex items-center justify-center gap-2 group"
+                        className="h-11 px-5 rounded-xl bg-secondary hover:bg-secondary/80 text-foreground font-bold text-xs transition-all flex items-center justify-center gap-2 group"
                       >
-                        <Edit2 className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                        <Edit2 className="h-3.5 w-3.5 text-muted-foreground group-hover:text-primary transition-colors" />
                         Edit Profile
                       </button>
                     ) : (
@@ -118,12 +118,12 @@ export default function ProfilePage() {
                         <button 
                           onClick={handleUpdateProfile}
                           disabled={isLoading}
-                          className="h-12 px-6 rounded-2xl bg-primary text-primary-foreground font-bold text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 disabled:opacity-50"
+                          className="h-11 px-5 rounded-xl bg-primary text-primary-foreground font-bold text-xs transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/10 hover:scale-[1.02] active:scale-95 disabled:opacity-50"
                         >
                           {isLoading ? (
-                            <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1 }}><Check className="h-4 w-4" /></motion.div>
+                            <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1 }}><Check className="h-3.5 w-3.5" /></motion.div>
                           ) : (
-                            <Check className="h-4 w-4" />
+                            <Check className="h-3.5 w-3.5" />
                           )}
                           Save
                         </button>
@@ -132,7 +132,7 @@ export default function ProfilePage() {
                             setIsEditing(false)
                             setFullName(user.user_metadata?.full_name || "")
                           }}
-                          className="h-12 px-6 rounded-2xl bg-red-500/10 text-red-500 font-bold text-sm hover:bg-red-500/20 transition-all"
+                          className="h-11 px-5 rounded-xl bg-red-500/10 text-red-500 font-bold text-xs hover:bg-red-500/20 transition-all"
                         >
                           Cancel
                         </button>
@@ -143,10 +143,10 @@ export default function ProfilePage() {
 
                 <div className="space-y-1.5">
                   <label className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] ml-1">Email Address</label>
-                  <div className="h-12 bg-secondary/30 rounded-2xl px-5 text-sm font-medium text-muted-foreground flex items-center gap-3 border border-border/40 select-none">
-                    <Mail className="h-4 w-4" />
+                  <div className="h-11 bg-secondary/30 rounded-xl px-4 text-xs font-medium text-muted-foreground flex items-center gap-3 border border-border/40 select-none">
+                    <Mail className="h-3.5 w-3.5" />
                     {user?.email}
-                    <span className="ml-auto flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-green-500/10 text-green-500 text-[10px] font-black uppercase">
+                    <span className="ml-auto flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-green-500/10 text-green-500 text-[9px] font-black uppercase">
                       Verified
                     </span>
                   </div>
@@ -158,10 +158,10 @@ export default function ProfilePage() {
 
         {/* Account Details & Security */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-           <section className="bg-card rounded-[2rem] border border-border/50 p-8 shadow-sm space-y-6">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="h-10 w-10 rounded-xl bg-orange-500/10 flex items-center justify-center border border-orange-500/20">
-                  <Shield className="h-5 w-5 text-orange-500" />
+           <section className="bg-card rounded-3xl border border-border/50 p-7 shadow-sm space-y-5">
+              <div className="flex items-center gap-3 mb-1">
+                <div className="h-9 w-9 rounded-lg bg-orange-500/10 flex items-center justify-center border border-orange-500/20">
+                  <Shield className="h-4.5 w-4.5 text-orange-500" />
                 </div>
                 <h2 className="text-xl font-bold text-foreground tracking-tight">Account Security</h2>
               </div>
@@ -185,15 +185,15 @@ export default function ProfilePage() {
               </div>
            </section>
 
-           <section className="bg-slate-900 rounded-[2rem] p-8 text-white shadow-xl relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-primary/20 transition-all duration-700"></div>
-              <div className="relative z-10 space-y-4">
-                 <div className="h-10 w-10 rounded-xl bg-white/10 flex items-center justify-center">
-                    <AlertCircle className="h-5 w-5 text-primary" />
+           <section className="bg-slate-900 rounded-3xl p-7 text-white shadow-xl relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-full blur-2xl -mr-12 -mt-12 group-hover:bg-primary/20 transition-all duration-700"></div>
+              <div className="relative z-10 space-y-3">
+                 <div className="h-9 w-9 rounded-lg bg-white/10 flex items-center justify-center">
+                    <AlertCircle className="h-4 w-4 text-primary" />
                  </div>
-                 <h3 className="font-bold text-lg">Identity Verification</h3>
-                 <p className="text-xs text-slate-400 leading-relaxed font-medium">Your identity helps prioritize high-security recovery requests for your contact vault.</p>
-                 <button className="text-[10px] font-black uppercase tracking-[0.2em] text-primary hover:text-white transition-all bg-white/5 border border-white/10 hover:bg-primary hover:border-primary px-5 py-3 rounded-xl w-full">
+                 <h3 className="font-bold text-base">Identity Verification</h3>
+                 <p className="text-[11px] text-slate-400 leading-relaxed font-medium">Your identity helps prioritize high-security recovery requests for your contact vault.</p>
+                 <button className="text-[9px] font-black uppercase tracking-[0.2em] text-primary hover:text-white transition-all bg-white/5 border border-white/10 hover:bg-primary hover:border-primary px-4 py-2.5 rounded-lg w-full">
                    Verify Identity Now
                  </button>
               </div>

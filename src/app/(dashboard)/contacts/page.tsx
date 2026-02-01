@@ -16,7 +16,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 
 export default function ContactsPage() {
   return (
-    <Suspense fallback={<div className="h-24 w-full rounded-[2rem] bg-secondary animate-pulse" />}>
+    <Suspense fallback={<div className="h-20 w-full rounded-2xl bg-secondary/50 animate-pulse" />}>
       <ContactsContent />
     </Suspense>
   )
@@ -86,17 +86,17 @@ function ContactsContent() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">Contacts</h1>
-          <p className="text-sm text-muted-foreground font-medium">
-            {isLoading ? "Loading..." : `${contacts.length} total members found`}
+          <h1 className="text-2xl font-black tracking-tight text-foreground">Contacts</h1>
+          <p className="text-xs text-muted-foreground font-medium">
+            {isLoading ? "Querying..." : `${contacts.length} entries identified`}
           </p>
         </div>
         <button 
           onClick={() => setIsCreating(true)}
-          className="flex items-center gap-2 rounded-2xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all active:scale-95"
+          className="flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-xs font-bold text-primary-foreground shadow-lg shadow-primary/10 hover:bg-primary/90 transition-all active:scale-95"
         >
-          <Plus className="h-4 w-4" />
-          Add Contact
+          <Plus className="h-3.5 w-3.5" />
+          Add Individual
         </button>
       </div>
 
@@ -115,9 +115,9 @@ function ContactsContent() {
 
       <div className="pb-10">
         {isLoading ? (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
              {[1, 2, 3].map(i => (
-               <div key={i} className="h-24 w-full rounded-[2rem] bg-secondary animate-pulse" />
+                <div key={i} className="h-20 w-full rounded-2xl bg-secondary/30 animate-pulse" />
              ))}
           </div>
         ) : contacts.length > 0 ? (

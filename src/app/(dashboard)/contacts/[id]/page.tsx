@@ -101,28 +101,28 @@ export default function ContactDetailsPage() {
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
-        <div className="h-20 w-20 rounded-[2rem] bg-secondary animate-pulse" />
-        <div className="h-4 w-48 bg-secondary animate-pulse rounded-full" />
+        <div className="h-16 w-16 rounded-2xl bg-secondary animate-pulse" />
+        <div className="h-3 w-40 bg-secondary animate-pulse rounded-full" />
       </div>
     )
   }
 
   if (!contact) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] space-y-6">
-        <div className="h-20 w-20 rounded-[2rem] bg-red-50 flex items-center justify-center">
-            <Trash2 className="h-10 w-10 text-red-500" />
+      <div className="flex flex-col items-center justify-center min-h-[400px] space-y-5">
+        <div className="h-16 w-16 rounded-2xl bg-red-50 flex items-center justify-center">
+            <Trash2 className="h-8 w-8 text-red-500" />
         </div>
-        <div className="text-center space-y-2">
-            <h2 className="text-2xl font-black text-slate-900">Contact Not Found</h2>
-            <p className="text-slate-500 font-medium">This contact may have been deleted or is hidden.</p>
+        <div className="text-center space-y-1.5">
+            <h2 className="text-xl font-black text-slate-900">Contact Not Found</h2>
+            <p className="text-xs text-slate-500 font-medium">This entry may have been purged or is concealed.</p>
         </div>
         <button 
           onClick={() => router.push("/contacts")}
-          className="flex items-center gap-2 rounded-2xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all active:scale-95"
+          className="flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-xs font-bold text-primary-foreground shadow-lg shadow-primary/10 hover:bg-primary/90 transition-all active:scale-95"
         >
-          <ArrowLeft className="h-4 w-4" />
-          Back to Contacts
+          <ArrowLeft className="h-3.5 w-3.5" />
+          Return to Vault
         </button>
       </div>
     )
@@ -175,20 +175,20 @@ export default function ContactDetailsPage() {
       </div>
 
       {/* Hero Section Card */}
-      <div className="relative rounded-[2.5rem] bg-white border border-slate-100 p-8 sm:p-12 shadow-xl shadow-blue-500/5 overflow-hidden">
+      <div className="relative rounded-3xl bg-white border border-slate-100 p-8 sm:p-10 shadow-xl shadow-blue-500/5 overflow-hidden">
         {/* Decorative Background Element */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
+        <div className="absolute top-0 right-0 w-48 h-48 bg-blue-500/5 rounded-full blur-3xl -mr-24 -mt-24"></div>
         
         <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center md:items-start text-center md:text-left">
           {/* Large Avatar */}
-          <div className="h-32 w-32 rounded-[2.5rem] bg-blue-50 flex items-center justify-center text-4xl font-black text-primary border-4 border-white shadow-lg shadow-blue-100">
+          <div className="h-24 w-24 rounded-3xl bg-blue-50 flex items-center justify-center text-3xl font-black text-primary border-4 border-white shadow-lg shadow-blue-100">
              {contact.first_name?.[0] || '?'}{contact.last_name?.[0] || ''}
           </div>
 
           <div className="flex-1 space-y-4">
             <div className="space-y-1">
-              <div className="flex flex-wrap justify-center md:justify-start items-center gap-3">
-                <h1 className="text-4xl font-black text-slate-900 tracking-tight">
+              <div className="flex flex-wrap justify-center md:justify-start items-center gap-2.5">
+                <h1 className="text-3xl font-black text-slate-900 tracking-tight">
                   {contact.first_name} {contact.last_name || ''}
                 </h1>
                  <button 
@@ -200,12 +200,12 @@ export default function ContactDetailsPage() {
                       : "bg-white border-slate-100 text-slate-300 hover:text-red-400 hover:border-red-100"
                   )}
                 >
-                   <Heart className={cn("h-5 w-5", contact.is_favorite && "fill-red-500")} />
+                  <Heart className={cn("h-4 w-4", contact.is_favorite && "fill-red-500")} />
                 </button>
               </div>
               {(contact.job_title || contact.company) && (
-                <p className="text-xl font-medium text-slate-500 flex items-center justify-center md:justify-start gap-2">
-                  <Building2 className="h-5 w-5 text-slate-300" />
+                <p className="text-lg font-medium text-slate-500 flex items-center justify-center md:justify-start gap-2">
+                  <Building2 className="h-4 w-4 text-slate-300" />
                   {contact.job_title ? (
                     <>
                       {contact.job_title} {contact.company && `at `}
@@ -240,20 +240,20 @@ export default function ContactDetailsPage() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-3 min-w-[160px]">
+          <div className="flex flex-col gap-2.5 min-w-[140px]">
              <a 
                href={`tel:${contact.phones[0].number}`}
-               className="flex items-center justify-center gap-2 h-12 bg-blue-500 text-white rounded-2xl font-bold shadow-lg shadow-blue-200 hover:bg-blue-600 hover:scale-[1.02] active:scale-95 transition-all"
+               className="flex items-center justify-center gap-2 h-11 bg-blue-500 text-white rounded-xl text-xs font-bold shadow-lg shadow-blue-100/50 hover:bg-blue-600 hover:scale-[1.02] active:scale-95 transition-all"
              >
-               <PhoneIcon className="h-4 w-4 fill-current" />
-               Call Now
+               <PhoneIcon className="h-3.5 w-3.5 fill-current" />
+               Call
              </a>
              <a 
                href={`sms:${contact.phones[0].number}`}
-               className="flex items-center justify-center gap-2 h-12 bg-slate-900 text-white rounded-2xl font-bold shadow-lg shadow-slate-200 hover:bg-slate-950 hover:scale-[1.02] active:scale-95 transition-all"
+               className="flex items-center justify-center gap-2 h-11 bg-slate-900 text-white rounded-xl text-xs font-bold shadow-lg shadow-slate-200/50 hover:bg-slate-950 hover:scale-[1.02] active:scale-95 transition-all"
              >
-               <MessageSquare className="h-4 w-4 fill-current" />
-               Send Message
+               <MessageSquare className="h-3.5 w-3.5 fill-current" />
+               Message
              </a>
           </div>
         </div>
@@ -262,8 +262,8 @@ export default function ContactDetailsPage() {
       {/* Details Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Left Column: Contact Info */}
-        <div className="md:col-span-2 space-y-8">
-            <section className="bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm">
+        <div className="md:col-span-2 space-y-6">
+            <section className="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm">
             <h2 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
               Contact Information
             </h2>
@@ -280,8 +280,8 @@ export default function ContactDetailsPage() {
                       transition={{ delay: i * 0.05 }}
                       className="flex items-center gap-4 group"
                     >
-                      <div className="h-12 w-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-blue-50 group-hover:text-primary transition-all duration-300">
-                        <Mail className="h-5 w-5" />
+                      <div className="h-10 w-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-blue-50 group-hover:text-primary transition-all duration-300">
+                        <Mail className="h-4 w-4" />
                       </div>
                       <div>
                         <p className="text-xs font-bold text-slate-400">{email.label}</p>
@@ -303,8 +303,8 @@ export default function ContactDetailsPage() {
                     transition={{ delay: (contact.emails?.length || 0) * 0.05 + i * 0.05 }}
                     className="flex items-center gap-4 group"
                   >
-                    <div className="h-12 w-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-blue-50 group-hover:text-primary transition-all duration-300">
-                      <PhoneIcon className="h-5 w-5" />
+                    <div className="h-10 w-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-blue-50 group-hover:text-primary transition-all duration-300">
+                      <PhoneIcon className="h-4 w-4" />
                     </div>
                     <div>
                       <p className="text-xs font-bold text-slate-400">{phone.label}</p>
@@ -319,8 +319,8 @@ export default function ContactDetailsPage() {
                 <div className="space-y-4 pt-4 border-t border-slate-50">
                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Location</p>
                    <div className="flex items-center gap-4 group">
-                      <div className="h-12 w-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400">
-                        <MapPin className="h-5 w-5" />
+                    <div className="h-10 w-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400">
+                        <MapPin className="h-4 w-4" />
                       </div>
                       <p className="font-medium text-slate-800">{contact.address}</p>
                    </div>
@@ -329,18 +329,18 @@ export default function ContactDetailsPage() {
             </div>
           </section>
 
-          <section className="bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm">
-            <h2 className="text-lg font-bold text-slate-900 mb-6">Notes</h2>
-            <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100 text-slate-600 leading-relaxed italic">
+          <section className="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm">
+            <h2 className="text-base font-bold text-slate-900 mb-4">Notes</h2>
+            <div className="bg-slate-50 rounded-xl p-4 border border-slate-100 text-[13px] text-slate-600 leading-relaxed italic">
                "{contact.notes}"
             </div>
           </section>
         </div>
 
         {/* Right Column: Metadata & Activity */}
-        <div className="space-y-8">
-           <section className="bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm">
-             <h2 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6">Details</h2>
+        <div className="space-y-6">
+           <section className="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm">
+             <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Metadata</h2>
              <div className="space-y-6">
                 <div className="flex justify-between items-center text-sm">
                    <span className="text-slate-400 font-medium">Added</span>
@@ -353,18 +353,18 @@ export default function ContactDetailsPage() {
              </div>
            </section>
 
-           <section className="bg-slate-900 rounded-[2rem] p-8 text-white shadow-xl relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-primary/20 transition-all duration-700"></div>
-              <div className="relative z-10 space-y-4">
+           <section className="bg-slate-900 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-full blur-2xl -mr-12 -mt-12 group-hover:bg-primary/20 transition-all duration-700"></div>
+              <div className="relative z-10 space-y-3">
                  <motion.div 
-                   className="h-10 w-10 rounded-xl bg-white/10 flex items-center justify-center"
+                   className="h-8 w-8 rounded-lg bg-white/10 flex items-center justify-center"
                    whileHover={{ rotate: 360 }}
                    transition={{ duration: 0.8, ease: "easeInOut" }}
                  >
-                    <Globe className="h-5 w-5 text-primary" />
+                    <Globe className="h-4 w-4 text-primary" />
                  </motion.div>
-                 <h3 className="font-bold">Social Profiles</h3>
-                 <p className="text-xs text-slate-400">Sync with LinkedIn or Twitter to get latest updates from Sarah.</p>
+                 <h3 className="text-sm font-bold">Social Profiles</h3>
+                 <p className="text-[11px] text-slate-400">Sync with External Intelligence to monitor network updates.</p>
                  <button className="text-xs font-bold text-primary hover:text-primary/80 transition-colors p-0 bg-transparent border-0 cursor-pointer group flex items-center gap-1">
                    Connect Account 
                    <motion.span

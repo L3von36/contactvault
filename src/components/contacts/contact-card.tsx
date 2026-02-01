@@ -57,7 +57,7 @@ export function ContactCard({ contact: initialContact }: ContactCardProps) {
 
   return (
     <div 
-      className="group relative flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 rounded-2xl sm:rounded-[2rem] border border-border bg-card p-0 shadow-sm transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/20 overflow-hidden"
+      className="group relative flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 rounded-2xl sm:rounded-3xl border border-border bg-card p-0 shadow-sm transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/20 overflow-hidden"
     >
       <Link 
         href={`/contacts/${contact.id}`} 
@@ -69,9 +69,9 @@ export function ContactCard({ contact: initialContact }: ContactCardProps) {
           {/* Top Section / Header Section */}
           <div className="flex items-center justify-between sm:justify-start gap-4 min-w-0 sm:min-w-[200px]">
             <div className="flex items-center gap-3 sm:gap-4 min-w-0">
-              <div className="flex h-11 w-11 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-xl sm:rounded-[1.25rem] bg-primary/10 text-sm sm:text-base font-bold text-primary shadow-sm border border-primary/10">
+              <div className="flex h-11 w-11 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-sm font-bold text-primary shadow-sm border border-primary/10">
                 {contact.profile_picture_url ? (
-                  <img src={contact.profile_picture_url} alt="" className="h-full w-full rounded-xl sm:rounded-[1.25rem] object-cover" />
+                  <img src={contact.profile_picture_url} alt="" className="h-full w-full rounded-xl object-cover" />
                 ) : (
                   `${contact.first_name?.[0] || '?'}${contact.last_name?.[0] || ''}`
                 )}
@@ -106,7 +106,7 @@ export function ContactCard({ contact: initialContact }: ContactCardProps) {
               {primaryPhone && (
                 <a 
                   href={`tel:${primaryPhone}`}
-                  className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500 text-white shadow-md shadow-blue-100 active:scale-90 transition-all cursor-pointer"
+                  className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-500 text-white shadow-md shadow-blue-100 active:scale-90 transition-all cursor-pointer"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <motion.div
@@ -119,7 +119,7 @@ export function ContactCard({ contact: initialContact }: ContactCardProps) {
               )}
               <button 
                 className={cn(
-                  "flex h-9 w-9 items-center justify-center rounded-xl border transition-all active:scale-90 cursor-pointer",
+                  "flex h-8 w-8 items-center justify-center rounded-lg border transition-all active:scale-90 cursor-pointer",
                   contact.is_favorite 
                     ? "bg-red-50 border-red-100 text-red-500 shadow-sm" 
                     : "bg-secondary border-border text-muted-foreground"
