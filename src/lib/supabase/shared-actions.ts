@@ -129,8 +129,7 @@ export async function saveSharedContact(token: string) {
             phones: contact.phones,
             emails: contact.emails,
             address: contact.address,
-            notes: `Saved from shared link (Token: ${token})`,
-            relationships: contact.relationships,
+            notes: `Saved from shared link (Token: ${token}). Original Labels: ${contact.relationships?.join(", ") || 'None'}`,
             status: "new"
         }])
         .select()
