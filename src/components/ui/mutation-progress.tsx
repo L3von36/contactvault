@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 
 interface MutationProgressProps {
   isVisible: boolean
-  status: "loading" | "success" | "error"
+  status: "idle" | "loading" | "success" | "error"
   message: string
   progress?: number // 0 to 100
 }
