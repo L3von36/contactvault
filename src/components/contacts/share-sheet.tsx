@@ -10,7 +10,7 @@ import { QRCodeSVG } from "qrcode.react"
 
 interface ShareSheetProps {
   resourceId: string
-  resourceType: "contact" | "group"
+  resourceType: "contact" | "relationship"
   onClose: () => void
 }
 

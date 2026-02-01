@@ -6,7 +6,7 @@ import { nanoid } from "nanoid"
 
 export async function generateSharedLink(options: {
     resource_id: string
-    resource_type: "contact" | "group"
+    resource_type: "contact" | "relationship"
     permission?: "view" | "edit"
     expiresInDays?: number
 }) {
@@ -70,17 +70,17 @@ export async function getSharedResource(token: string) {
         if (contactError) return { error: "Resource not found" }
         return { type: "contact", data: contact }
     } else {
-        const { data: group, error: groupError } = await supabase
-            .from("groups")
+        const { data: relationship, error: relationshipError } = await supabase
+            .from("relationships")
             .select(`
         *,
-        contacts:contact_groups(contacts(*))
+        contacts:contact_relationships(contacts(*))
       `)
             .eq("id", link.resource_id)
             .single()
 
-        if (groupError) return { error: "Resource not found" }
-        return { type: "group", data: group }
+        if (relationshipError) return { error: "Resource not found" }
+        return { type: "relationship", data: relationship }
     }
 }
 

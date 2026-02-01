@@ -21,8 +21,8 @@ create table contacts (
   updated_at timestamp with time zone default now()
 );
 
--- 2. Groups Table
-create table groups (
+-- 2. Relationships Table
+create table relationships (
   id uuid primary key default gen_random_uuid(),
   user_id uuid references auth.users(id) on delete cascade,
 
@@ -31,12 +31,12 @@ create table groups (
   created_at timestamp with time zone default now()
 );
 
--- 3. Contact_Groups (Many-to-Many)
-create table contact_groups (
+-- 3. Contact_Relationships (Many-to-Many)
+create table contact_relationships (
   contact_id uuid references contacts(id) on delete cascade,
-  group_id uuid references groups(id) on delete cascade,
+  relationship_id uuid references relationships(id) on delete cascade,
 
-  primary key (contact_id, group_id)
+  primary key (contact_id, relationship_id)
 );
 
 -- 4. Shared Links
@@ -74,15 +74,15 @@ create policy "Public can view shared contacts" on contacts for select using (
   )
 );
 
--- Groups
-alter table groups enable row level security;
-create policy "Users can access own groups" on groups for all using (auth.uid() = user_id);
+-- Relationships
+alter table relationships enable row level security;
+create policy "Users can manage own relationships" on relationships for all using (auth.uid() = user_id);
 
--- Contact Groups
-alter table contact_groups enable row level security;
-create policy "Users can access own contact groups" on contact_groups for all using (
+-- Contact Relationships
+alter table contact_relationships enable row level security;
+create policy "Users can manage own contact relationships" on contact_relationships for all using (
   exists (
-    select 1 from contacts c where c.id = contact_groups.contact_id and c.user_id = auth.uid()
+    select 1 from contacts c where c.id = contact_relationships.contact_id and c.user_id = auth.uid()
   )
 );
 
