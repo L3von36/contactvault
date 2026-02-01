@@ -13,7 +13,7 @@ const navigation = [
   { name: "All Contacts", href: "/contacts", icon: Users },
   { name: "Favorites", href: "/contacts/favorites", icon: Heart },
   { name: "Shared", href: "/contacts/shared", icon: Share2 },
-  { name: "Groups", href: "/groups", icon: LayoutDashboard },
+  { name: "Relationships", href: "/relationships", icon: LayoutDashboard },
   { name: "Import/Export", href: "/import-export", icon: Upload },
   { name: "Emergency", href: "/settings/emergency", icon: Siren },
 ]

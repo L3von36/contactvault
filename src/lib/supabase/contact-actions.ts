@@ -67,14 +67,25 @@ export async function getContacts(options?: { query?: string; tab?: string }) {
         query = query.or(`first_name.ilike.${searchTerm},last_name.ilike.${searchTerm},company.ilike.${searchTerm},job_title.ilike.${searchTerm}`)
     }
 
-    const { data, error } = await query.order("created_at", { ascending: false })
+    const { data, error } = await query
+        .select(`
+            *,
+            relationships:contact_relationships(relationship_id, relationships(name))
+        `)
+        .order("created_at", { ascending: false })
 
     if (error) {
         console.error("Error fetching contacts:", error)
         return { contacts: [], counts }
     }
 
-    return { contacts: data, counts }
+    const contactsWithRelationships = data.map((contact: any) => ({
+        ...contact,
+        relationship_ids: contact.relationships?.map((r: any) => r.relationship_id) || [],
+        relationships: contact.relationships?.map((r: any) => r.relationships?.name).filter(Boolean) || []
+    }))
+
+    return { contacts: contactsWithRelationships, counts }
 }
 
 export async function createContact(formData: any) {
@@ -83,7 +94,7 @@ export async function createContact(formData: any) {
 
     if (!user) return { success: false, error: "Not authenticated" }
 
-    const { group_ids, ...data } = formData
+    const { relationship_ids, ...data } = formData
     const { data: contact, error } = await supabase
         .from("contacts")
         .insert([{
@@ -98,16 +109,16 @@ export async function createContact(formData: any) {
         return { success: false, error: error.message }
     }
 
-    if (group_ids && group_ids.length > 0) {
-        const groupInserts = group_ids.map((gid: string) => ({
+    if (relationship_ids && relationship_ids.length > 0) {
+        const relationshipInserts = relationship_ids.map((rid: string) => ({
             contact_id: contact.id,
-            group_id: gid
+            relationship_id: rid
         }))
-        await supabase.from("contact_groups").insert(groupInserts)
+        await supabase.from("contact_relationships").insert(relationshipInserts)
     }
 
     revalidatePath("/contacts")
-    revalidatePath("/groups")
+    revalidatePath("/relationships")
     return { success: true, error: null }
 }
 
@@ -117,7 +128,7 @@ export async function updateContact(id: string, formData: any) {
 
     if (!user) return { success: false, error: "Not authenticated" }
 
-    const { group_ids, ...data } = formData
+    const { relationship_ids, ...data } = formData
     const { error } = await supabase
         .from("contacts")
         .update(data)
@@ -129,22 +140,22 @@ export async function updateContact(id: string, formData: any) {
         return { success: false, error: error.message }
     }
 
-    // Sync groups
-    if (group_ids !== undefined) {
+    // Sync relationships
+    if (relationship_ids !== undefined) {
         // Simple sync: delete all and re-add
-        await supabase.from("contact_groups").delete().eq("contact_id", id)
-        if (group_ids.length > 0) {
-            const groupInserts = group_ids.map((gid: string) => ({
+        await supabase.from("contact_relationships").delete().eq("contact_id", id)
+        if (relationship_ids.length > 0) {
+            const relationshipInserts = relationship_ids.map((rid: string) => ({
                 contact_id: id,
-                group_id: gid
+                relationship_id: rid
             }))
-            await supabase.from("contact_groups").insert(groupInserts)
+            await supabase.from("contact_relationships").insert(relationshipInserts)
         }
     }
 
     revalidatePath("/contacts")
     revalidatePath(`/contacts/${id}`)
-    revalidatePath("/groups")
+    revalidatePath("/relationships")
     return { success: true, error: null }
 }
 
@@ -232,7 +243,7 @@ export async function getContact(id: string) {
         .from("contacts")
         .select(`
             *,
-            groups:contact_groups(group_id, groups(name))
+            relationships:contact_relationships(relationship_id, relationships(name))
         `)
         .eq("id", id)
         .eq("user_id", user.id)
@@ -250,7 +261,28 @@ export async function getContact(id: string) {
 
     return {
         ...contactData,
-        group_ids: contactData.groups?.map((g: any) => g.group_id) || [],
-        groups: contactData.groups?.map((g: any) => g.groups?.name).filter(Boolean) || []
+        relationship_ids: contactData.relationships?.map((r: any) => r.relationship_id) || [],
+        relationships: contactData.relationships?.map((r: any) => r.relationships?.name).filter(Boolean) || []
     }
+}
+export async function toggleEmergencySafe(id: string, is_emergency_safe: boolean) {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user) return { success: false, error: "Not authenticated" }
+
+    const { error } = await supabase
+        .from("contacts")
+        .update({ is_emergency_safe })
+        .eq("id", id)
+        .eq("user_id", user.id)
+
+    if (error) {
+        console.error("Error toggling emergency safe status:", error)
+        return { success: false, error: error.message }
+    }
+
+    revalidatePath("/contacts")
+    revalidatePath("/settings/emergency")
+    return { success: true, error: null }
 }

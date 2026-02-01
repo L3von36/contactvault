@@ -228,13 +228,13 @@ export default function ContactDetailsPage() {
                  {contact.status?.toUpperCase() || 'NEW'}
               </span>
               
-              {contact.groups?.map((groupName: string) => (
+              {contact.relationships?.map((relName: string) => (
                 <span 
-                  key={groupName} 
+                  key={relName} 
                   className="rounded-full px-4 py-1 bg-primary/5 text-primary border border-primary/20 font-extrabold uppercase tracking-wider text-[10px] flex items-center gap-1.5 shadow-sm"
                 >
                   <Hash className="h-3 w-3" />
-                  {groupName}
+                  {relName}
                 </span>
               ))}
             </div>

@@ -29,6 +29,19 @@ export async function updateEmergencySettings(settings: { enabled?: boolean; pin
 
     if (!user) return { error: "Not authenticated" }
 
+    // If enabling, ensure a PIN exists
+    if (settings.enabled === true) {
+        const { data: current } = await supabase
+            .from("emergency_settings")
+            .select("pin_hash")
+            .eq("user_id", user.id)
+            .single()
+
+        if (!current?.pin_hash && !settings.pin_hash) {
+            return { error: "Security PIN must be set before enabling Panic Mode" }
+        }
+    }
+
     const { error } = await supabase
         .from("emergency_settings")
         .upsert({
@@ -51,18 +64,27 @@ export async function resetAllData() {
 
     if (!user) return { error: "Not authenticated" }
 
-    // RLS will handle delete permissions, but we'll do it explicitly
-    const { error: contactsError } = await supabase
-        .from("contacts")
-        .delete()
-        .eq("user_id", user.id)
+    // Complete cleanup of user data
+    const tables = ["shared_links", "contact_relationships", "relationships", "contacts"]
 
-    if (contactsError) {
-        console.error("Error resetting contacts:", contactsError)
-        return { error: contactsError.message }
+    for (const table of tables) {
+        const column = table === "shared_links" ? "owner_id" : "user_id"
+        // Note: contact_relationships are handled by cascade or junction policy
+        if (table === "contact_relationships") continue;
+
+        const { error } = await supabase
+            .from(table)
+            .delete()
+            .eq(column, user.id)
+
+        if (error) {
+            console.error(`Error resetting ${table}:`, error)
+            return { error: error.message }
+        }
     }
 
     revalidatePath("/contacts")
-    revalidatePath("/groups")
+    revalidatePath("/relationships")
+    revalidatePath("/", "layout")
     return { success: true }
 }

@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache"
 import { createClient } from "./server"
 
-export async function getGroups() {
+export async function getRelationships() {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
@@ -18,12 +18,12 @@ export async function getGroups() {
 
     const isDuressActive = settings?.enabled || false
 
-    // Fetch groups and count their contacts, respecting Duress Mode
-    const { data: groups, error } = await supabase
-        .from("groups")
+    // Fetch relationships and count their contacts, respecting Duress Mode
+    const { data: relationships, error } = await supabase
+        .from("relationships")
         .select(`
             *,
-            contact_groups(
+            contact_relationships(
                 contacts(is_emergency_safe)
             )
         `)
@@ -31,89 +31,89 @@ export async function getGroups() {
         .order("name")
 
     if (error) {
-        console.error("Error fetching groups:", error)
+        console.error("Error fetching relationships:", error)
         return []
     }
 
-    return groups.map(g => {
-        let filteredContacts = g.contact_groups
+    return relationships.map(r => {
+        let filteredContacts = r.contact_relationships
         if (isDuressActive) {
-            filteredContacts = g.contact_groups.filter((cg: any) => cg.contacts?.is_emergency_safe)
+            filteredContacts = r.contact_relationships.filter((cr: any) => cr.contacts?.is_emergency_safe)
         }
         return {
-            ...g,
+            ...r,
             count: filteredContacts?.length || 0
         }
     })
 }
 
-export async function createGroup(name: string) {
+export async function createRelationship(name: string) {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) return { error: "Not authenticated" }
 
     const { data, error } = await supabase
-        .from("groups")
+        .from("relationships")
         .insert([{ name, user_id: user.id }])
         .select()
         .single()
 
     if (error) {
-        console.error("Error creating group:", error)
+        console.error("Error creating relationship:", error)
         return { error: error.message }
     }
 
-    revalidatePath("/groups")
-    return { success: true, group: data }
+    revalidatePath("/relationships")
+    return { success: true, relationship: data }
 }
 
-export async function deleteGroup(id: string) {
+export async function deleteRelationship(id: string) {
     const supabase = await createClient()
     const { error } = await supabase
-        .from("groups")
+        .from("relationships")
         .delete()
         .eq("id", id)
 
     if (error) {
-        console.error("Error deleting group:", error)
+        console.error("Error deleting relationship:", error)
         return { error: error.message }
     }
 
-    revalidatePath("/groups")
+    revalidatePath("/relationships")
     return { success: true }
 }
 
-export async function addContactToGroup(contactId: string, groupId: string) {
+export async function addContactToRelationship(contactId: string, relationshipId: string) {
     const supabase = await createClient()
     const { error } = await supabase
-        .from("contact_groups")
-        .insert([{ contact_id: contactId, group_id: groupId }])
+        .from("contact_relationships")
+        .insert([{ contact_id: contactId, relationship_id: relationshipId }])
 
     if (error) {
-        console.error("Error adding contact to group:", error)
+        console.error("Error adding contact to relationship:", error)
         return { error: error.message }
     }
 
     revalidatePath("/contacts")
-    revalidatePath("/groups")
+    revalidatePath("/relationships")
     return { success: true }
 }
 
-export async function removeContactFromGroup(contactId: string, groupId: string) {
+export async function removeContactFromRelationship(contactId: string, relationshipId: string) {
     const supabase = await createClient()
     const { error } = await supabase
-        .from("contact_groups")
+        .from("contact_relationships")
         .delete()
         .eq("contact_id", contactId)
-        .eq("group_id", groupId)
+        .eq("relationship_id", relationshipId)
 
     if (error) {
-        console.error("Error removing contact from group:", error)
+        console.error("Error removing contact from relationship:", error)
         return { error: error.message }
     }
 
     revalidatePath("/contacts")
-    revalidatePath("/groups")
+    revalidatePath("/relationships")
     return { success: true }
 }

@@ -6,7 +6,7 @@ import { useForm, useFieldArray } from "react-hook-form"
 import * as z from "zod"
 import { Plus, Trash2, Save, X, User, Phone, Mail, MapPin, Building2, ImagePlus, Hash, Briefcase, Info, Map as MapIcon, Loader2, ShieldAlert } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
-import { getGroups } from "@/lib/supabase/group-actions"
+import { getRelationships } from "@/lib/supabase/relationship-actions"
 import { cn } from "@/lib/utils"
 import { toast } from "sonner"
 
@@ -25,7 +25,7 @@ const contactSchema = z.object({
   })).optional(),
   job_title: z.string().optional(),
   status: z.enum(["new", "qualified", "contacted"]).optional(),
-  group_ids: z.array(z.string()).optional(),
+  relationship_ids: z.array(z.string()).optional(),
   is_emergency_safe: z.boolean().optional(),
 })
 
@@ -50,12 +50,12 @@ export function ContactForm({ onCancel, onSubmit, initialData, isSubmitting = fa
       emails: initialData?.emails || [],
       job_title: initialData?.job_title || "",
       status: initialData?.status || "new",
-      group_ids: initialData?.group_ids || [],
+      relationship_ids: initialData?.relationship_ids || [],
       is_emergency_safe: initialData?.is_emergency_safe || false,
     },
   })
 
-  const [availableGroups, setAvailableGroups] = useState<any[]>([])
+  const [availableRelationships, setAvailableRelationships] = useState<any[]>([])
   const [isLocating, setIsLocating] = useState(false)
 
   const handleFetchLocation = () => {
@@ -91,11 +91,11 @@ export function ContactForm({ onCancel, onSubmit, initialData, isSubmitting = fa
   }
 
   useEffect(() => {
-    const fetchGroups = async () => {
-      const groups = await getGroups()
-      setAvailableGroups(groups)
+    const fetchRelationships = async () => {
+      const relationships = await getRelationships()
+      setAvailableRelationships(relationships)
     }
-    fetchGroups()
+    fetchRelationships()
   }, [])
 
   const { fields: phoneFields, append: appendPhone, remove: removePhone } = useFieldArray({
@@ -344,25 +344,25 @@ export function ContactForm({ onCancel, onSubmit, initialData, isSubmitting = fa
                 </div>
               </div>
 
-              {/* Groups */}
+              {/* Relationships */}
               <div className="space-y-3 pt-2">
                 <div className="flex items-center gap-2 px-1">
                   <Hash className="h-3.5 w-3.5 text-primary" />
-                  <h3 className="text-[10px] font-black text-foreground uppercase tracking-widest">Assigned Groups</h3>
+                  <h3 className="text-[10px] font-black text-foreground uppercase tracking-widest">Vault Relationships</h3>
                 </div>
                 <div className="flex flex-wrap gap-2 px-1 text-xs">
-                  {availableGroups.map((group) => {
-                    const isSelected = form.watch("group_ids")?.includes(group.id)
+                  {availableRelationships.map((rel) => {
+                    const isSelected = form.watch("relationship_ids")?.includes(rel.id)
                     return (
                       <button
-                        key={group.id}
+                        key={rel.id}
                         type="button"
                         onClick={() => {
-                          const current = form.getValues("group_ids")
+                          const current = form.getValues("relationship_ids")
                           if (isSelected) {
-                            form.setValue("group_ids", (current || []).filter(id => id !== group.id))
+                            form.setValue("relationship_ids", (current || []).filter(id => id !== rel.id))
                           } else {
-                            form.setValue("group_ids", [...(current || []), group.id])
+                            form.setValue("relationship_ids", [...(current || []), rel.id])
                           }
                         }}
                         className={cn(
@@ -372,12 +372,12 @@ export function ContactForm({ onCancel, onSubmit, initialData, isSubmitting = fa
                             : "bg-secondary/10 text-muted-foreground border-transparent hover:border-primary/20"
                         )}
                       >
-                        {group.name}
+                        {rel.name}
                       </button>
                     )
                   })}
-                  {availableGroups.length === 0 && (
-                    <p className="text-[9px] text-muted-foreground/60 font-medium uppercase tracking-widest italic ml-1">No groups created.</p>
+                  {availableRelationships.length === 0 && (
+                    <p className="text-[9px] text-muted-foreground/60 font-medium uppercase tracking-widest italic ml-1">No relationship types defined.</p>
                   )}
                 </div>
               </div>

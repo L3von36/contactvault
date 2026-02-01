@@ -22,6 +22,7 @@ interface ContactCardProps {
     address?: string
     profile_picture_url?: string
     is_favorite?: boolean
+    relationships?: string[]
   }
 }
 
@@ -87,6 +88,16 @@ export function ContactCard({ contact: initialContact }: ContactCardProps) {
                 {contact.company && (
                   <p className="text-[10px] sm:text-xs font-medium text-muted-foreground truncate">{contact.company}</p>
                 )}
+                <div className="flex flex-wrap gap-1 mt-1">
+                  {contact.relationships?.map((rel: string) => (
+                    <span 
+                      key={rel} 
+                      className="inline-flex items-center rounded-md bg-primary/5 px-1.5 py-0.5 text-[8px] font-bold text-primary border border-primary/10"
+                    >
+                      {rel}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
 
