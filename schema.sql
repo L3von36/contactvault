@@ -41,7 +41,7 @@ create table contact_groups (
 
 -- 4. Shared Links
 create table shared_links (
-  id uuid primary key default gen_random_uuid(),
+  id text primary key, -- NanoID token
   owner_id uuid references auth.users(id) on delete cascade,
 
   resource_type text check (resource_type in ('contact', 'group')),
@@ -64,7 +64,15 @@ create table emergency_settings (
 
 -- Contacts
 alter table contacts enable row level security;
-create policy "Users can access own contacts" on contacts for all using (auth.uid() = user_id);
+create policy "Users can manage own contacts" on contacts for all using (auth.uid() = user_id);
+create policy "Public can view shared contacts" on contacts for select using (
+  exists (
+    select 1 from shared_links
+    where shared_links.resource_id = contacts.id
+    AND shared_links.resource_type = 'contact'
+    AND (shared_links.expires_at IS NULL OR shared_links.expires_at > now())
+  )
+);
 
 -- Groups
 alter table groups enable row level security;
@@ -80,7 +88,8 @@ create policy "Users can access own contact groups" on contact_groups for all us
 
 -- Shared Links
 alter table shared_links enable row level security;
-create policy "Users can access own shared links" on shared_links for all using (auth.uid() = owner_id);
+create policy "Users can manage own shared links" on shared_links for all using (auth.uid() = owner_id);
+create policy "Public can view shared links by ID" on shared_links for select using (true);
 
 -- Emergency Settings
 alter table emergency_settings enable row level security;

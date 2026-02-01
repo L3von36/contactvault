@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Share2, Clock, Trash2, ExternalLink, Shield, Loader2 } from "lucide-react"
+import { Share2, Clock, Trash2, ExternalLink, Shield, Loader2, Globe } from "lucide-react"
 import { EmptyState } from "@/components/contacts/empty-state"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { createClient } from "@/lib/supabase/client"
