@@ -16,7 +16,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ContactVault | Secure Personal CRM & Emergency Intelligence",
+  title: {
+    default: "ContactVault | Secure Personal CRM",
+    template: "%s | ContactVault",
+  },
   description: "Protect your network with industry-grade encryption. ContactVault is a secure personal CRM featuring Duress Protocols, Relationship Intelligence, and fail-safe data protection.",
   keywords: ["secure crm", "personal networking", "encryption", "privacy", "emergency contacts", "duress pin", "digital vault"],
   authors: [{ name: "ContactVault Team" }],
