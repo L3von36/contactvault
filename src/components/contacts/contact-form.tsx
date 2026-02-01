@@ -24,9 +24,9 @@ const contactSchema = z.object({
     address: z.string().email("Invalid email address").or(z.literal("")),
   })).optional(),
   job_title: z.string().optional(),
-  status: z.enum(["new", "qualified", "contacted"]).default("new"),
-  group_ids: z.array(z.string()).default([]),
-  is_emergency_safe: z.boolean().default(false),
+  status: z.enum(["new", "qualified", "contacted"]).optional(),
+  group_ids: z.array(z.string()).optional(),
+  is_emergency_safe: z.boolean().optional(),
 })
 
 type ContactFormValues = z.infer<typeof contactSchema>
