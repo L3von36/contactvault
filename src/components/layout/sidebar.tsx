@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { LayoutDashboard, Users, Heart, Share2, Upload, Siren, LogOut } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -24,11 +25,17 @@ export function Sidebar() {
   return (
     <div className="hidden bg-card md:flex md:h-full md:w-64 md:flex-col shadow-sm relative z-20 border-r border-border/50">
       <div className="flex h-16 items-center px-8">
-        <Link href="/" className="flex items-center gap-2 font-semibold">
-          <div className="h-6 w-6 rounded bg-primary text-primary-foreground flex items-center justify-center">
-            <Users className="h-4 w-4" />
+        <Link href="/" className="flex items-center gap-3 font-semibold group">
+          <div className="h-8 w-8 rounded-xl bg-primary/5 flex items-center justify-center border border-primary/20 group-hover:bg-primary/10 transition-colors shadow-sm overflow-hidden">
+            <Image 
+              src="/logo.png" 
+              alt="ContactVault Logo" 
+              width={32} 
+              height={32}
+              className="object-cover"
+            />
           </div>
-          <span className="text-sm font-bold tracking-tight text-foreground">ContactVault</span>
+          <span className="text-sm font-black tracking-tight text-foreground uppercase tracking-widest">ContactVault</span>
         </Link>
       </div>
       

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { createPortal } from "react-dom"
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { LayoutDashboard, Users, Heart, Share2, Upload, Siren, LogOut, Menu, X, User as UserIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -52,11 +53,17 @@ export function MobileSidebar() {
             className="relative flex h-full w-full max-w-[280px] flex-col bg-card border-r border-border shadow-2xl px-6 py-8 z-[101]"
           >
             <div className="flex items-center justify-between mb-10 px-2">
-              <Link href="/" className="flex items-center gap-2 font-semibold" onClick={() => setOpen(false)}>
-                <div className="h-8 w-8 rounded-xl bg-primary text-primary-foreground flex items-center justify-center shadow-lg shadow-primary/20">
-                  <Users className="h-5 w-5" />
+              <Link href="/" className="flex items-center gap-3 font-semibold group" onClick={() => setOpen(false)}>
+                <div className="h-10 w-10 rounded-2xl bg-primary/5 text-primary-foreground flex items-center justify-center border border-primary/20 group-hover:bg-primary/10 transition-colors shadow-lg overflow-hidden">
+                  <Image 
+                    src="/logo.png" 
+                    alt="ContactVault Logo" 
+                    width={40} 
+                    height={40}
+                    className="object-cover"
+                  />
                 </div>
-                <span className="text-lg font-black tracking-tight text-foreground">ContactVault</span>
+                <span className="text-xl font-black tracking-tighter text-foreground uppercase tracking-widest">ContactVault</span>
               </Link>
               <button onClick={() => setOpen(false)} className="rounded-full p-2 hover:bg-secondary transition-colors text-muted-foreground hover:text-foreground">
                 <motion.div whileTap={{ scale: 0.9, rotate: -90 }}>
