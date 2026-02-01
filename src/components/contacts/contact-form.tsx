@@ -360,7 +360,7 @@ export function ContactForm({ onCancel, onSubmit, initialData, isSubmitting = fa
                         onClick={() => {
                           const current = form.getValues("group_ids")
                           if (isSelected) {
-                            form.setValue("group_ids", current.filter(id => id !== group.id))
+                            form.setValue("group_ids", (current || []).filter(id => id !== group.id))
                           } else {
                             form.setValue("group_ids", [...(current || []), group.id])
                           }
