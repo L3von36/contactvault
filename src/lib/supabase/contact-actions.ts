@@ -7,7 +7,16 @@ export async function getContacts(options?: { query?: string; tab?: string }) {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
-    if (!user) return { contacts: [], counts: {} }
+    if (!user) return {
+        contacts: [],
+        counts: {
+            all: 0,
+            favorites: 0,
+            new: 0,
+            qualified: 0,
+            contacted: 0
+        }
+    }
 
     // Check Duress Mode
     const { data: settings } = await supabase
