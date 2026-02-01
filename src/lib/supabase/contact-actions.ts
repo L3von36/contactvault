@@ -187,6 +187,7 @@ export async function toggleFavorite(id: string, is_favorite: boolean) {
     }
 
     revalidatePath("/contacts")
+    revalidatePath("/", "layout")
     return { success: true, error: null }
 }
 export async function bulkCreateContacts(contacts: any[]) {
