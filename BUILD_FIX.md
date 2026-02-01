@@ -47,14 +47,14 @@
    - Making `group_ids` optional caused `form.getValues("group_ids")` to potentially return `undefined`, failing at runtime usage (`.filter`).
    - **Solution**: Added a safe fallback `(current || [])` to ensure array operations always succeed.
 
-10. **Fixed Missing `ContactListProps` Interface and `emptyMessage` Prop**:
-    - The build failed in `src/components/contacts/contact-list.tsx` because the `ContactListProps` interface was missing.
-    - Subsequent builds failed because `ContactList` was being passed an `emptyMessage` prop (in `favorites` and `shared` pages) which wasn't in the interface.
-    - **Solution**: Defined `ContactListProps` with an optional `emptyMessage?: string` prop and updated the component to handle it.
+11. **Fixed Next.js Suspense Bailout**:
+    - Build failed with `useSearchParams() should be wrapped in a suspense boundary`.
+    - Occurred because the `Header` component (using `useSearchParams`) was placed in `DashboardLayout` without a `Suspense` wrapper, blocking static generation for `/contacts/favorites` and other pages.
+    - **Solution**: Wrapped `<Header />` in `<Suspense />` in `src/app/(dashboard)/layout.tsx`.
 
 ## What Happens Now
 
-✅ **Changes pushed to GitHub** (commit: `af9e5fc`)
+✅ **Changes pushed to GitHub** (commit: `6645399`)
 
 🔄 **Render will automatically:**
 1. Detect the new commit
