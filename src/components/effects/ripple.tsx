@@ -61,7 +61,7 @@ export function Ripple({ children }: { children: React.ReactNode }) {
       className="relative overflow-hidden w-full" 
       onPointerDown={addRipple}
     >
-      <div className="relative z-10 w-full">{children}</div>
+      <div className="relative w-full">{children}</div>
       <AnimatePresence>
         {ripples.map((ripple) => (
           <motion.span

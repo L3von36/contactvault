@@ -150,10 +150,15 @@ export async function updateContact(id: string, formData: any) {
 
 export async function deleteContact(id: string) {
     const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user) return { success: false, error: "Not authenticated" }
+
     const { error } = await supabase
         .from("contacts")
         .delete()
         .eq("id", id)
+        .eq("user_id", user.id)
 
     if (error) {
         console.error("Error deleting contact:", error)
@@ -166,10 +171,15 @@ export async function deleteContact(id: string) {
 
 export async function toggleFavorite(id: string, is_favorite: boolean) {
     const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user) return { success: false, error: "Not authenticated" }
+
     const { error } = await supabase
         .from("contacts")
         .update({ is_favorite })
         .eq("id", id)
+        .eq("user_id", user.id)
 
     if (error) {
         console.error("Error toggling favorite:", error)

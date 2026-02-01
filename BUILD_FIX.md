@@ -54,9 +54,14 @@
 14. **Improved OAuth Redirect Resilience**:
     - Switched from strictly using the `host` header to prioritizing `x-forwarded-host` in `auth-actions.ts`. This ensures correct redirect URLs on platforms like Render where the application might be behind a load balancer.
 
+15. **Fixed Contact Card Interaction & Mobile Favorites**:
+    - **Clickability**: Removed `z-10` from the `Ripple` component's child container. This was conflicting with the card's `Link` (also `z-10`), making parts of the card unclickable.
+    - **Mobile UX**: Added the missing Favorite (Star) button to the mobile quick actions section in `ContactCard`.
+    - **Security**: Added `user_id` checks to `toggleFavorite` and `deleteContact` server actions to ensure users can only modify their own data.
+
 ## What Happens Now
 
-✅ **Changes pushed to GitHub** (commit: `7c6a9b2`)
+✅ **Changes pushed to GitHub** (commit: `9f5b2e1`)
 
 🔄 **Render will automatically:**
 1. Detect the new commit

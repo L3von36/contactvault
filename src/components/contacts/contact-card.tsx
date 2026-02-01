@@ -94,9 +94,9 @@ export function ContactCard({ contact: initialContact }: ContactCardProps) {
               )}
               <button 
                 className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary border border-border text-muted-foreground active:scale-90 transition-all cursor-pointer"
-                onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                onClick={handleToggleFavorite}
               >
-                <MoreVertical className="h-3.5 w-3.5" />
+                <Star className={cn("h-3.5 w-3.5", contact.is_favorite && "fill-primary text-primary")} />
               </button>
             </div>
           </div>
