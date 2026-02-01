@@ -1,11 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import { Share2, Link as LinkIcon, Copy, Check, Clock, Globe, X, Loader2 } from "lucide-react"
+import { Share2, Link as LinkIcon, Copy, Check, Clock, Globe, X, Loader2, QrCode } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { generateSharedLink } from "@/lib/supabase/shared-actions"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
+import { QRCodeSVG } from "qrcode.react"
 
 interface ShareSheetProps {
   resourceId: string
@@ -17,6 +18,7 @@ export function ShareSheet({ resourceId, resourceType, onClose }: ShareSheetProp
   const [isGenerating, setIsGenerating] = useState(false)
   const [shareUrl, setShareUrl] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
+  const [showQR, setShowQR] = useState(false)
 
   const handleGenerate = async (days?: number) => {
     setIsGenerating(true)
@@ -27,7 +29,7 @@ export function ShareSheet({ resourceId, resourceType, onClose }: ShareSheetProp
     })
 
     if (res.success && res.token) {
-      const url = `${window.location.origin}/shared/${res.token}`
+      const url = `${window.location.host === 'localhost:3000' ? 'http://' : 'https://'}${window.location.host}/shared/${res.token}`
       setShareUrl(url)
       toast.success("Link generated successfully")
     } else {
@@ -115,35 +117,76 @@ export function ShareSheet({ resourceId, resourceType, onClose }: ShareSheetProp
               className="space-y-6"
             >
               <div className="p-5 rounded-2xl bg-secondary/30 border border-border/50 space-y-3.5">
-                <div className="flex items-center gap-2">
-                  <LinkIcon className="h-3 w-3 text-primary" />
-                  <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Generated Public URL</p>
-                </div>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    readOnly
-                    value={shareUrl}
-                    className="flex-1 h-11 rounded-xl border border-border/40 bg-background/50 px-4 text-[10px] font-bold text-foreground outline-none"
-                  />
-                  <button
-                    onClick={copyToClipboard}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <LinkIcon className="h-3 w-3 text-primary" />
+                    <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Generated Public URL</p>
+                  </div>
+                  <button 
+                    onClick={() => setShowQR(!showQR)}
                     className={cn(
-                      "h-11 w-11 rounded-xl flex items-center justify-center transition-all",
-                      copied ? "bg-green-500 text-white" : "bg-primary text-white hover:scale-105"
+                      "flex items-center gap-1.5 px-2 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all",
+                      showQR ? "bg-primary text-white" : "text-primary hover:bg-primary/10"
                     )}
                   >
-                    {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                    <QrCode className="h-3 w-3" />
+                    {showQR ? "Hide QR" : "Show QR"}
                   </button>
                 </div>
+
+                <AnimatePresence mode="wait">
+                  {showQR ? (
+                    <motion.div 
+                      key="qr"
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="flex flex-col items-center justify-center py-4 bg-white rounded-xl overflow-hidden"
+                    >
+                      <QRCodeSVG 
+                        value={shareUrl} 
+                        size={160}
+                        includeMargin={true}
+                        level="M"
+                      />
+                      <p className="text-[9px] font-bold text-slate-400 mt-4 uppercase tracking-[0.2em]">Scan for Secure Access</p>
+                    </motion.div>
+                  ) : (
+                    <motion.div 
+                      key="input"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="flex gap-2"
+                    >
+                      <input
+                        type="text"
+                        readOnly
+                        value={shareUrl}
+                        className="flex-1 h-11 rounded-xl border border-border/40 bg-background/50 px-4 text-[10px] font-bold text-foreground outline-none"
+                      />
+                      <button
+                        onClick={copyToClipboard}
+                        className={cn(
+                          "h-11 w-11 rounded-xl flex items-center justify-center transition-all",
+                          copied ? "bg-green-500 text-white" : "bg-primary text-white hover:scale-105"
+                        )}
+                      >
+                        {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
               <div className="flex justify-center">
                 <button 
-                  onClick={() => setShareUrl(null)}
-                  className="text-[10px] font-black uppercase tracking-widest text-primary hover:underline"
+                  onClick={() => {
+                    setShareUrl(null)
+                    setShowQR(false)
+                  }}
+                  className="text-[10px] font-black uppercase tracking-widest text-primary hover:underline hover:opacity-80 transition-all"
                 >
-                  Generate new link
+                  Generate new access token
                 </button>
               </div>
             </motion.div>
@@ -151,7 +194,9 @@ export function ShareSheet({ resourceId, resourceType, onClose }: ShareSheetProp
 
           {isGenerating && (
             <div className="absolute inset-0 bg-background/50 backdrop-blur-[2px] flex items-center justify-center z-20">
-              <Loader2 className="h-10 w-10 animate-spin text-primary" />
+              <div className="h-16 w-16 rounded-2xl bg-card shadow-xl border border-border flex items-center justify-center">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              </div>
             </div>
           )}
         </div>

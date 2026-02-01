@@ -83,3 +83,64 @@ export async function getSharedResource(token: string) {
         return { type: "group", data: group }
     }
 }
+
+export async function revokeSharedLink(token: string) {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user) return { error: "Not authenticated" }
+
+    const { error } = await supabase
+        .from("shared_links")
+        .delete()
+        .eq("id", token)
+        .eq("owner_id", user.id)
+
+    if (error) {
+        console.error("Error revoking shared link:", error)
+        return { error: error.message }
+    }
+
+    revalidatePath("/contacts/shared")
+    return { success: true }
+}
+
+export async function saveSharedContact(token: string) {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user) return { error: "Not authenticated" }
+
+    // Get the shared resource
+    const res = await getSharedResource(token)
+    if (res.error || res.type !== "contact") return { error: res.error || "Invalid resource" }
+
+    const contact = res.data
+
+    // Create a copy for the current user
+    const { data: newContact, error } = await supabase
+        .from("contacts")
+        .insert([{
+            user_id: user.id,
+            first_name: contact.first_name,
+            last_name: contact.last_name,
+            job_title: contact.job_title,
+            company: contact.company,
+            phones: contact.phones,
+            emails: contact.emails,
+            address: contact.address,
+            notes: `Saved from shared link (Token: ${token})`,
+            relationships: contact.relationships,
+            status: "new"
+        }])
+        .select()
+        .single()
+
+    if (error) {
+        console.error("Error saving shared contact:", error)
+        return { error: error.message }
+    }
+
+    revalidatePath("/contacts")
+    return { success: true, contactId: newContact.id }
+}
