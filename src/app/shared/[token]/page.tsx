@@ -58,7 +58,7 @@ export default function SharedResourcePage() {
   if (data?.error || !data) {
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center p-8 text-center space-y-8">
-        <div className="h-20 w-20 rounded-3xl bg-red-50 flex items-center justify-center border border-red-100">
+        <div className="h-20 w-20 rounded-3xl bg-red-500/10 flex items-center justify-center border border-red-500/20">
           <AlertCircle className="h-10 w-10 text-red-500" />
         </div>
         <div className="space-y-3">
@@ -204,9 +204,9 @@ export default function SharedResourcePage() {
         )}
 
         <div className="flex flex-col items-center gap-4 pt-4">
-          <div className="flex items-center gap-2 px-4 py-2 bg-emerald-500/5 border border-emerald-500/10 rounded-full">
+          <div className="flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
             <ShieldCheck className="h-3 w-3 text-emerald-500" />
-            <span className="text-[9px] font-black uppercase tracking-[0.1em] text-emerald-600">Zero-Trust Protocol Active</span>
+            <span className="text-[9px] font-black uppercase tracking-[0.1em] text-emerald-500">Zero-Trust Protocol Active</span>
           </div>
           <p className="text-[9px] text-center text-muted-foreground font-black uppercase tracking-[0.4em] opacity-40 hover:opacity-100 transition-opacity">
             ContactVault Security Foundation

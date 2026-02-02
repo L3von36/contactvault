@@ -135,15 +135,15 @@ export default function ContactDetailsClient() {
       <div className="flex items-center justify-between">
         <button 
           onClick={() => router.back()}
-          className="group flex items-center px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-950 transition-colors -ml-4"
+          className="group flex items-center px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors -ml-4"
         >
           <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-          Back to Contacts
+          Back to Vault
         </button>
         <div className="flex items-center gap-2">
           <button 
             onClick={handleShare}
-            className="group inline-flex items-center px-3 py-1.5 rounded-xl border border-slate-100 bg-white text-xs font-bold text-slate-600 shadow-sm hover:border-primary/20 transition-all"
+            className="group inline-flex items-center px-3 py-1.5 rounded-xl border border-border/50 bg-card text-xs font-bold text-muted-foreground shadow-sm hover:border-primary/20 transition-all hover:text-foreground"
           >
             <motion.div whileHover={{ scale: 1.1, rotate: -10 }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
               <Share2 className="mr-2 h-4 w-4" />
@@ -152,7 +152,7 @@ export default function ContactDetailsClient() {
           </button>
           <button 
             onClick={() => setIsEditing(true)}
-            className="group inline-flex items-center px-3 py-1.5 rounded-xl border border-slate-100 bg-white text-xs font-bold text-slate-600 shadow-sm hover:border-primary/20 transition-all"
+            className="group inline-flex items-center px-3 py-1.5 rounded-xl border border-border/50 bg-card text-xs font-bold text-muted-foreground shadow-sm hover:border-primary/20 transition-all hover:text-foreground"
           >
             <motion.div whileHover={{ scale: 1.1, x: 1 }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
               <Edit2 className="mr-2 h-4 w-4 group-hover:text-primary transition-colors" />
@@ -166,7 +166,7 @@ export default function ContactDetailsClient() {
               }
             }}
             disabled={deleteMutation.isPending}
-            className="inline-flex items-center p-2 rounded-xl border border-red-50 bg-white text-red-500 shadow-sm hover:bg-red-50 transition-all disabled:opacity-50"
+            className="inline-flex items-center p-2 rounded-xl border border-red-500/10 bg-card text-red-500 shadow-sm hover:bg-red-500 hover:text-white transition-all disabled:opacity-50"
           >
             <motion.div whileHover={{ rotate: 15 }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
               <Trash2 className="h-4 w-4" />
@@ -176,20 +176,20 @@ export default function ContactDetailsClient() {
       </div>
 
       {/* Hero Section Card */}
-      <div className="relative rounded-3xl bg-white border border-slate-100 p-8 sm:p-10 shadow-xl shadow-blue-500/5 overflow-hidden">
+      <div className="relative rounded-3xl bg-card border border-border/50 p-8 sm:p-10 shadow-xl shadow-primary/5 overflow-hidden">
         {/* Decorative Background Element */}
-        <div className="absolute top-0 right-0 w-48 h-48 bg-blue-500/5 rounded-full blur-3xl -mr-24 -mt-24"></div>
+        <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full blur-3xl -mr-24 -mt-24"></div>
         
         <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center md:items-start text-center md:text-left">
           {/* Large Avatar */}
-          <div className="h-24 w-24 rounded-3xl bg-blue-50 flex items-center justify-center text-3xl font-black text-primary border-4 border-white shadow-lg shadow-blue-100">
+          <div className="h-24 w-24 rounded-3xl bg-primary/10 flex items-center justify-center text-3xl font-black text-primary border-4 border-card shadow-lg shadow-primary/5">
              {contact.first_name?.[0] || '?'}{contact.last_name?.[0] || ''}
           </div>
 
           <div className="flex-1 space-y-4">
             <div className="space-y-1">
               <div className="flex flex-wrap justify-center md:justify-start items-center gap-2.5">
-                <h1 className="text-3xl font-black text-slate-900 tracking-tight">
+                <h1 className="text-3xl font-black text-foreground tracking-tight">
                   {contact.first_name} {contact.last_name || ''}
                 </h1>
                  <button 
@@ -197,23 +197,23 @@ export default function ContactDetailsClient() {
                   className={cn(
                     "h-10 w-10 flex items-center justify-center rounded-2xl border transition-all hover:shadow-md active:scale-95",
                     contact.is_favorite 
-                      ? "bg-red-50 border-red-100 text-red-500" 
-                      : "bg-white border-slate-100 text-slate-300 hover:text-red-400 hover:border-red-100"
+                      ? "bg-red-500/10 border-red-500/20 text-red-500" 
+                      : "bg-card border-border/50 text-muted-foreground/40 hover:text-red-400 hover:border-red-500/30"
                   )}
                 >
                   <Heart className={cn("h-4 w-4", contact.is_favorite && "fill-red-500")} />
                 </button>
               </div>
               {(contact.job_title || contact.company) && (
-                <p className="text-lg font-medium text-slate-500 flex items-center justify-center md:justify-start gap-2">
-                  <Building2 className="h-4 w-4 text-slate-300" />
+                <p className="text-lg font-medium text-muted-foreground flex items-center justify-center md:justify-start gap-2">
+                  <Building2 className="h-4 w-4 text-muted-foreground/30" />
                   {contact.job_title ? (
                     <>
                       {contact.job_title} {contact.company && `at `}
-                      <span className="text-slate-900">{contact.company}</span>
+                      <span className="text-foreground">{contact.company}</span>
                     </>
                   ) : (
-                    <span className="text-slate-900">{contact.company}</span>
+                    <span className="text-foreground">{contact.company}</span>
                   )}
                 </p>
               )}
@@ -222,9 +222,9 @@ export default function ContactDetailsClient() {
             <div className="flex flex-wrap justify-center md:justify-start gap-2">
               <span className={cn(
                 "rounded-full px-4 py-1 font-extrabold uppercase tracking-wider text-[10px] border",
-                contact.status === 'qualified' ? "bg-emerald-50 text-emerald-600 border-emerald-100" : 
-                contact.status === 'contacted' ? "bg-blue-50 text-blue-600 border-blue-100" : 
-                "bg-slate-50 text-slate-500 border-slate-100"
+                contact.status === 'qualified' ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20" : 
+                contact.status === 'contacted' ? "bg-blue-500/10 text-blue-500 border-blue-500/20" : 
+                "bg-secondary text-muted-foreground border-border/50"
               )}>
                  {contact.status?.toUpperCase() || 'NEW'}
               </span>
@@ -244,16 +244,16 @@ export default function ContactDetailsClient() {
           <div className="flex flex-col gap-2.5 min-w-[140px]">
              <a 
                href={`tel:${contact.phones[0].number}`}
-               className="flex items-center justify-center gap-2 h-11 bg-blue-500 text-white rounded-xl text-xs font-bold shadow-lg shadow-blue-100/50 hover:bg-blue-600 hover:scale-[1.02] active:scale-95 transition-all"
+               className="flex items-center justify-center gap-2 h-11 bg-primary text-white rounded-xl text-xs font-bold shadow-lg shadow-primary/20 hover:bg-primary/90 hover:scale-[1.02] active:scale-95 transition-all"
              >
                <PhoneIcon className="h-3.5 w-3.5 fill-current" />
                Call
              </a>
              <a 
                href={`sms:${contact.phones[0].number}`}
-               className="flex items-center justify-center gap-2 h-11 bg-slate-900 text-white rounded-xl text-xs font-bold shadow-lg shadow-slate-200/50 hover:bg-slate-950 hover:scale-[1.02] active:scale-95 transition-all"
+               className="flex items-center justify-center gap-2 h-11 bg-secondary text-foreground rounded-xl text-xs font-bold border border-border/50 shadow-sm hover:bg-secondary/80 hover:scale-[1.02] active:scale-95 transition-all"
              >
-               <MessageSquare className="h-3.5 w-3.5 fill-current" />
+               <MessageSquare className="h-3.5 w-3.5" />
                Message
              </a>
           </div>
@@ -264,15 +264,15 @@ export default function ContactDetailsClient() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Left Column: Contact Info */}
         <div className="md:col-span-2 space-y-6">
-            <section className="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm">
-            <h2 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+            <section className="bg-card rounded-3xl border border-border/50 p-6 shadow-sm">
+            <h2 className="text-lg font-bold text-foreground mb-6 flex items-center gap-2">
               Contact Information
             </h2>
             <div className="grid gap-8">
               {/* Emails */}
               {contact.emails && contact.emails.length > 0 && contact.emails.some((e: any) => e.address) && (
                 <div className="space-y-4">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Email Addresses</p>
+                  <p className="text-[10px] font-bold text-muted-foreground/40 uppercase tracking-widest ml-1">Email Addresses</p>
                   {contact.emails.filter((e: any) => e.address).map((email: any, i: number) => (
                     <motion.div 
                       key={`email-${i}`}
@@ -281,12 +281,12 @@ export default function ContactDetailsClient() {
                       transition={{ delay: i * 0.05 }}
                       className="flex items-center gap-4 group"
                     >
-                      <div className="h-10 w-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-blue-50 group-hover:text-primary transition-all duration-300">
+                      <div className="h-10 w-10 rounded-xl bg-secondary/50 flex items-center justify-center text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary transition-all duration-300">
                         <Mail className="h-4 w-4" />
                       </div>
                       <div>
-                        <p className="text-xs font-bold text-slate-400">{email.label}</p>
-                        <a href={`mailto:${email.address}`} className="font-medium text-slate-800 hover:text-primary transition-colors">{email.address}</a>
+                        <p className="text-xs font-bold text-muted-foreground/60">{email.label}</p>
+                        <a href={`mailto:${email.address}`} className="font-medium text-foreground hover:text-primary transition-colors">{email.address}</a>
                       </div>
                     </motion.div>
                   ))}
@@ -295,7 +295,7 @@ export default function ContactDetailsClient() {
 
               {/* Phones */}
               <div className="space-y-4">
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Phone Numbers</p>
+                <p className="text-[10px] font-bold text-muted-foreground/40 uppercase tracking-widest ml-1">Phone Numbers</p>
                 {contact.phones?.map((phone: any, i: number) => (
                   <motion.div 
                     key={`phone-${i}`}
@@ -304,12 +304,12 @@ export default function ContactDetailsClient() {
                     transition={{ delay: (contact.emails?.length || 0) * 0.05 + i * 0.05 }}
                     className="flex items-center gap-4 group"
                   >
-                    <div className="h-10 w-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-blue-50 group-hover:text-primary transition-all duration-300">
+                    <div className="h-10 w-10 rounded-xl bg-secondary/50 flex items-center justify-center text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary transition-all duration-300">
                       <PhoneIcon className="h-4 w-4" />
                     </div>
                     <div>
-                      <p className="text-xs font-bold text-slate-400">{phone.label}</p>
-                      <a href={`tel:${phone.number}`} className="font-medium text-slate-800 hover:text-primary transition-colors">{phone.number}</a>
+                      <p className="text-xs font-bold text-muted-foreground/60">{phone.label}</p>
+                      <a href={`tel:${phone.number}`} className="font-medium text-foreground hover:text-primary transition-colors">{phone.number}</a>
                     </div>
                   </motion.div>
                 ))}
@@ -317,22 +317,22 @@ export default function ContactDetailsClient() {
 
               {/* Address */}
               {contact.address && (
-                <div className="space-y-4 pt-4 border-t border-slate-50">
-                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Location</p>
+                <div className="space-y-4 pt-4 border-t border-border/20">
+                   <p className="text-[10px] font-bold text-muted-foreground/40 uppercase tracking-widest ml-1">Location</p>
                    <div className="flex items-center gap-4 group">
-                    <div className="h-10 w-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400">
+                    <div className="h-10 w-10 rounded-xl bg-secondary/50 flex items-center justify-center text-muted-foreground">
                         <MapPin className="h-4 w-4" />
                       </div>
-                      <p className="font-medium text-slate-800">{contact.address}</p>
+                      <p className="font-medium text-foreground">{contact.address}</p>
                    </div>
                 </div>
               )}
             </div>
           </section>
 
-          <section className="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm">
-            <h2 className="text-base font-bold text-slate-900 mb-4">Notes</h2>
-            <div className="bg-slate-50 rounded-xl p-4 border border-slate-100 text-[13px] text-slate-600 leading-relaxed italic">
+          <section className="bg-card rounded-3xl border border-border/50 p-6 shadow-sm">
+            <h2 className="text-base font-bold text-foreground mb-4">Notes</h2>
+            <div className="bg-secondary/30 rounded-xl p-4 border border-border/30 text-[13px] text-muted-foreground leading-relaxed italic">
                "{contact.notes}"
             </div>
           </section>
@@ -340,19 +340,19 @@ export default function ContactDetailsClient() {
 
         {/* Right Column: Metadata & Activity */}
         <div className="space-y-6">
-           <section className="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm">
-             <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Metadata</h2>
+          <section className="bg-card rounded-3xl border border-border/50 p-6 shadow-sm">
+             <h2 className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-4">Metadata</h2>
              <div className="space-y-6">
                 <div className="flex justify-between items-center text-sm">
-                   <span className="text-slate-400 font-medium">Added</span>
-                   <span className="text-slate-900 font-bold">{new Date(contact.created_at).toLocaleDateString()}</span>
+                   <span className="text-muted-foreground font-medium">Added</span>
+                   <span className="text-foreground font-bold">{new Date(contact.created_at).toLocaleDateString()}</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
-                   <span className="text-slate-400 font-medium">Status</span>
+                   <span className="text-muted-foreground font-medium">Status</span>
                    <span className="rounded-full px-3 py-0.5 border border-primary/10 bg-primary/5 text-primary font-bold text-[10px] uppercase">{contact.status || 'NEW'}</span>
                 </div>
              </div>
-           </section>
+          </section>
 
            <section className="bg-slate-900 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-full blur-2xl -mr-12 -mt-12 group-hover:bg-primary/20 transition-all duration-700"></div>
